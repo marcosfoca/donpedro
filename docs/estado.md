@@ -54,7 +54,7 @@
 - Nota: `npm run build` falla con EPERM si `next dev` está corriendo (bloquea .next): pararlo antes.
 
 ## Arte (fase 5)
-- Estilo 2 "cartel de época" ✅ → `arte/biblia.md`. Clave de Gemini en `.env.local` (fuera de git). **Revocar la clave al acabar el proyecto**: se compartió en el chat.
+- Estilo 2 "cartel de época" ✅ → `arte/biblia.md`. Clave de Gemini en `.env.local` (fuera de git). No se revoca (decisión del usuario, 2026-09-30).
 - Modelo gemini-3-pro-image vía `scripts/arte/generar.py` (con `--aspecto`). Croma con `scripts/arte/limpiar_croma.py`.
 - ✅ Fachada día y noche (según la hora, `lib/momento.ts`), móvil y escritorio, alineadas al píxel. ✅ Hoja de la puerta (bisagra derecha). En móvil, la ilustración se pinta un 8 % más alta para ganar cielo (`alturaExtra`).
 - ✅ Don Pedro: hoja de personaje (chaleco marrón) + 6 poses (incluida "apurado" para los errores).
@@ -104,4 +104,4 @@ Pendiente:
 - Decidir si, con "Uno en concreto", se relaja antes el tacón o la temporada que el color (hoy el color es lo primero que se relaja, igual que en el resto).
 - Decidir si el pacto (talla y 14 días de devolución) lo dice Don Pedro en la trastienda antes de "Ver los zapatos": ya no aparece en ningún sitio y es la reversión de riesgo.
 - Relanzar las auditorías afectadas (qa-movil y voz) y cerrar la fase 7 con la entrega (resumen, variables, cómo editar contenido).
-- Revocar la clave de Gemini. Confirmar con el cliente la zona y el coste de envío (hoy no se muestra en ningún sitio).
+- Confirmar con el cliente la zona y el coste de envío (hoy no se muestra en ningún sitio).
