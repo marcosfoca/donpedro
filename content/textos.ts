@@ -230,9 +230,10 @@ const resultados = {
   /** Título de la página de resultados (petición del usuario). */
   titulo: "Recomendaciones",
   /** R1. Usar resumenRespuestas() de lib/texto.ts, que ya elige plantilla y relajación. */
+  // Termina en punto, no en dos puntos: detrás viene el pacto (config.pacto) y luego los zapatos.
   plantilla: (o: string, t: string, ta: string, c: string, extra: string) =>
-    `Para ${o}, ${t}, ${ta} y ${c}, yo le pondría estos${extra}:`,
-  plantillaCasa: (c: string, extra: string) => `Para estar en casa y ${c}, yo le pondría estas${extra}:`,
+    `Para ${o}, ${t}, ${ta} y ${c}, yo le pondría estos${extra}.`,
+  plantillaCasa: (c: string, extra: string) => `Para estar en casa y ${c}, yo le pondría estas${extra}.`,
   /** Paréntesis de relajación: masculino (zapatos) y femenino (zapatillas de casa). */
   relajacion: (dif: string) => ` (y alguno ${dif})`,
   relajacionCasa: (dif: string) => ` (y alguna ${dif})`,

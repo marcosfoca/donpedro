@@ -4,7 +4,8 @@
  * Don Pedro (pose trastienda), de pie en la tienda, dice sus dos frases de una en una mientras
  * calcula las recomendaciones y precarga las 6 fotos top. Saltable tocando o con "Saltar".
  * Después vuelve (pose señalando) y DICE lo que ha sacado (resumen R1, con la relajación honesta
- * si la hubo); "Ver los zapatos" abre la selección, que sale sin diálogo (petición del usuario).
+ * si la hubo) y, breve, el pacto (talla y 14 días en casa: config.pacto). "Ver los zapatos" sale con
+ * la última frase y abre la selección, que ya va sin diálogo (petición del usuario).
  * Si falla (lanza, top vacío o faltan respuestas): Don Pedro apurado lo dice, con "Ir a la tienda"
  * -> config.tiendaZapatosUrl, y track("error_catalogo").
  * Persuasión: anticipación (el bucle 1 está a punto de cerrarse) y coste hundido.
@@ -22,7 +23,7 @@ import { cargarRecomendador } from "@/lib/cargarRecomendador";
 import { resumenRespuestas } from "@/lib/texto";
 
 /** ok: con la frase de Don Pedro que resume sus respuestas (y la relajación honesta, si la hubo). */
-type Resultado = { ok: true; resumen: string } | { ok: false; motivo: string };
+type Resultado = { ok: true; frases: string[] } | { ok: false; motivo: string };
 
 /** La última frase de la espera no necesita toda su lectura: los puntos ya marcan la pausa. */
 const FIN_ESPERA_MS = 1800;
@@ -31,7 +32,9 @@ export default function Trastienda() {
   const { avanzar, retroceder, respuestasCompletas } = useEstado();
   const [error, setError] = useState(false);
   /** Tras la espera, Don Pedro dice lo que ha sacado; la selección sale después (petición del usuario). */
-  const [dicho, setDicho] = useState<string | null>(null);
+  const [dicho, setDicho] = useState<string[] | null>(null);
+  /** "Ver los zapatos" sale cuando Don Pedro ha dicho también el pacto. */
+  const [pactoDicho, setPactoDicho] = useState(false);
   const listo = useRef<Resultado | null>(null);
   const esperaDicha = useRef(false);
   const salido = useRef(false);
@@ -43,7 +46,7 @@ export default function Trastienda() {
     const r = listo.current;
     if (salido.current || !r?.ok) return;
     salido.current = true;
-    setDicho(r.resumen);
+    setDicho(r.frases);
   };
 
   /** Pasa cuando Don Pedro ha dicho sus frases Y el recomendador (carga diferida) ha calculado. */
@@ -66,7 +69,8 @@ export default function Trastienda() {
           img.src = p.imagen;
         }
         new Image().src = personaje.poses.senalando;
-        return { ok: true, resumen: resumenRespuestas(respuestasCompletas, r.relajaciones) };
+        const pacto = respuestasCompletas.ocasion === "casa" ? config.pacto.zapatillas : config.pacto.zapatos;
+        return { ok: true, frases: [resumenRespuestas(respuestasCompletas, r.relajaciones), ...pacto] };
       })
       .catch((e: unknown): Resultado => ({ ok: false, motivo: e instanceof Error ? e.message : "desconocido" }))
       .then((resultado) => {
@@ -89,10 +93,10 @@ export default function Trastienda() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Cuando Don Pedro ya lo ha dicho (o en error), el foco va al botón de abajo.
+  // Cuando Don Pedro ya lo ha dicho todo (o en error), el foco va al botón de abajo.
   useEffect(() => {
-    if (dicho || error) cta.current?.querySelector<HTMLElement>("a, button")?.focus({ preventScroll: true });
-  }, [dicho, error]);
+    if (pactoDicho || error) cta.current?.querySelector<HTMLElement>("a, button")?.focus({ preventScroll: true });
+  }, [pactoDicho, error]);
 
   if (error) {
     return (
@@ -122,12 +126,14 @@ export default function Trastienda() {
       <EscenaTienda
         etiqueta={textos.trastienda.etiqueta}
         pose="senalando"
-        dialogo={<CuadroDialogo key="dicho" textos={[dicho]} />}
+        dialogo={<CuadroDialogo key="dicho" textos={dicho} onCompleta={() => setPactoDicho(true)} />}
         pie={
           <div ref={cta} className="w-full">
-            <Boton onClick={avanzar} className="accion-destacada">
-              {textos.trastienda.verZapatos}
-            </Boton>
+            {pactoDicho ? (
+              <Boton onClick={avanzar} className="accion-destacada">
+                {textos.trastienda.verZapatos}
+              </Boton>
+            ) : null}
           </div>
         }
       />

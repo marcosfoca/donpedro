@@ -42,45 +42,45 @@ describe("resumen R1", () => {
   it("plantilla completa", () => {
     expect(
       resumenRespuestas({ ocasion: "diario", tiempo: "frio", tacon: "plano", color: "discretos" }),
-    ).toBe("Para el día a día, en días de frío, planos y en colores discretos, yo le pondría estos:");
+    ).toBe("Para el día a día, en días de frío, planos y en colores discretos, yo le pondría estos.");
   });
   it("plantilla casa", () => {
     expect(resumenRespuestas({ ocasion: "casa", tiempo: null, tacon: null, color: "todos" })).toBe(
-      "Para estar en casa y del color que sea, yo le pondría estas:",
+      "Para estar en casa y del color que sea, yo le pondría estas.",
     );
   });
   it("relajación dentro de la frase, diciendo qué tienen de distinto", () => {
     const r = { ocasion: "diario", tiempo: "frio", tacon: "bajo", color: "llamativos" } as const;
     expect(resumenRespuestas(r, [])).toBe(
-      "Para el día a día, en días de frío, de poco tacón y en colores llamativos, yo le pondría estos:",
+      "Para el día a día, en días de frío, de poco tacón y en colores llamativos, yo le pondría estos.",
     );
     expect(resumenRespuestas(r, ["color", "tacon"])).toBe(
-      "Para el día a día, en días de frío, de poco tacón y en colores llamativos, yo le pondría estos (y alguno de otro color o algo más plano o más alto):",
+      "Para el día a día, en días de frío, de poco tacón y en colores llamativos, yo le pondría estos (y alguno de otro color o algo más plano o más alto).",
     );
     expect(resumenRespuestas({ ...r, tacon: "plano" }, ["estacion"])).toBe(
-      "Para el día a día, en días de frío, planos y en colores llamativos, yo le pondría estos (y alguno de otra temporada):",
+      "Para el día a día, en días de frío, planos y en colores llamativos, yo le pondría estos (y alguno de otra temporada).",
     );
   });
   it("casa: femenino y sin mencionar el color si es 'todos'", () => {
     const r = { ocasion: "casa", tiempo: null, tacon: null, color: "discretos" } as const;
     expect(resumenRespuestas(r, ["color"])).toBe(
-      "Para estar en casa y en colores discretos, yo le pondría estas (y alguna de otro color):",
+      "Para estar en casa y en colores discretos, yo le pondría estas (y alguna de otro color).",
     );
     expect(resumenRespuestas({ ...r, color: "todos" }, ["color"])).toBe(
-      "Para estar en casa y del color que sea, yo le pondría estas:",
+      "Para estar en casa y del color que sea, yo le pondría estas.",
     );
   });
   it("colores concretos: uno, dos, tres y más de tres", () => {
     const base = { ocasion: "casa", tiempo: null, tacon: null, color: "concreto" } as const;
-    expect(resumenRespuestas({ ...base, tonos: ["negro"] })).toBe("Para estar en casa y en negro, yo le pondría estas:");
+    expect(resumenRespuestas({ ...base, tonos: ["negro"] })).toBe("Para estar en casa y en negro, yo le pondría estas.");
     expect(resumenRespuestas({ ...base, tonos: ["negro", "marino"] })).toBe(
-      "Para estar en casa y en negro o azul marino, yo le pondría estas:",
+      "Para estar en casa y en negro o azul marino, yo le pondría estas.",
     );
     expect(resumenRespuestas({ ...base, tonos: ["negro", "gris", "metal"] })).toBe(
-      "Para estar en casa y en negro, gris o metalizado, yo le pondría estas:",
+      "Para estar en casa y en negro, gris o metalizado, yo le pondría estas.",
     );
     expect(resumenRespuestas({ ...base, tonos: ["negro", "gris", "rojo", "rosa"] })).toBe(
-      "Para estar en casa y en los colores que me ha dicho, yo le pondría estas:",
+      "Para estar en casa y en los colores que me ha dicho, yo le pondría estas.",
     );
   });
 });

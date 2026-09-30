@@ -9,11 +9,14 @@
  *    sandalia nunca sale "en días de frío" sin avisar), +1 si está en la PRIMERA categoría de la
  *    fila (prioridad de la casa).
  * 3) Orden: puntuación desc → precio desc → id asc.
- * 4) Elegibles: puntuación ≥ 3. Si hay menos de 6 MODELOS distintos, se relaja, en este orden y
- *    de forma acumulativa: color → tacón adyacente → otra temporada → categorías de otras filas de
- *    la misma ocasión. Cada relajación se anuncia en R1 (lib/texto.ts → resumenRespuestas).
- *    Las relajaciones solo amplían quién es elegible; el ORDEN sigue usando la puntuación estricta,
- *    así lo que encaja de verdad con sus respuestas sale siempre primero.
+ * 4) Elegibles: puntuación ≥ 3. Si hay menos de 6 MODELOS distintos, se relaja de forma
+ *    acumulativa en el orden de ORDEN_RELAJACION: color → tacón adyacente → otra temporada →
+ *    categorías de otras filas de la misma ocasión. Con "Uno en concreto" (colores elegidos a mano)
+ *    el color pesa más y se relaja después (ORDEN_RELAJACION_CONCRETO, consejo 2026-09-30).
+ *    Cada relajación que contradice lo dicho se anuncia en R1 (lib/texto.ts → resumenRespuestas).
+ *    Las relajaciones solo amplían quién es elegible; el ORDEN pone primero lo que entró con menos
+ *    relajaciones (y, a igualdad, la puntuación estricta), así lo que encaja de verdad con sus
+ *    respuestas sale siempre primero y lo que ella priorizó se respeta antes que lo demás.
  * 5) top: 6 modelos distintos · mas: siguientes del ranking, máx. 2 por modelo, hasta
  *    config.maxMasZapatos · urlTienda: categoría de la primera celda de la fila.
  */
@@ -116,9 +119,22 @@ export function puntuar(p: Producto, r: Respuestas, fila: number[], o: Opciones 
   return s;
 }
 
-/** Orden estable: puntuación desc → precio desc → id asc. */
-function comparar(a: { p: Producto; s: number }, b: { p: Producto; s: number }): number {
-  return b.s - a.s || b.p.precio - a.p.precio || a.p.id - b.p.id;
+/** Orden de relajación por defecto (§5.3). */
+export const ORDEN_RELAJACION: readonly Relajacion[] = ["color", "tacon", "estacion", "categorias"];
+
+/**
+ * Con "Uno en concreto" el color es la preferencia más explícita: antes de enseñar otros colores se
+ * admiten otros tipos de zapato de la misma ocasión (sin salirse de la temporada: no contradice
+ * nada de lo dicho) y un tacón parecido. La temporada, lo último. Decisión del 2026-09-30 con el
+ * consejo (docs/decisiones/2026-09-30-relajacion-color.md).
+ */
+export const ORDEN_RELAJACION_CONCRETO: readonly Relajacion[] = ["categorias", "tacon", "color", "estacion"];
+
+type Puntuado = { p: Producto; nivel: number; s: number };
+
+/** Orden estable: menos relajaciones → puntuación estricta desc → precio desc → id asc. */
+function comparar(a: Puntuado, b: Puntuado): number {
+  return a.nivel - b.nivel || b.s - a.s || b.p.precio - a.p.precio || a.p.id - b.p.id;
 }
 
 function modelosDistintos(ps: Producto[]): number {
@@ -129,44 +145,55 @@ function modelosDistintos(ps: Producto[]): number {
 export function crearRecomendador(
   catalogo: Producto[],
   cfg: { numRecomendaciones: number; maxMasZapatos: number } = config,
+  ordenes: { general: readonly Relajacion[]; concreto: readonly Relajacion[] } = {
+    general: ORDEN_RELAJACION,
+    concreto: ORDEN_RELAJACION_CONCRETO,
+  },
 ): Recomendar {
   return (r: Respuestas): ResultadoRecomendacion => {
     const fila = filaDe(r);
     const N = cfg.numRecomendaciones;
+    const todasCats = categoriasDeLaOcasion(r);
 
-    // Pasos de relajación aplicables, en orden (§5.3). Se omiten los que no cambian nada.
+    // Pasos de relajación aplicables, en orden y acumulativos. Se omiten los que no cambian nada.
     type Paso = { rel: Relajacion; o: Opciones; cats: number[] };
+    const aplicable: Record<Relajacion, boolean> = {
+      color: r.color !== "todos",
+      tacon: r.tacon !== null,
+      estacion: r.tiempo !== null,
+      categorias: todasCats.length > fila.length,
+    };
     const pasos: Paso[] = [];
     let o: Opciones = { ...ESTRICTO };
     let cats = fila;
-    if (r.color !== "todos") {
-      o = { ...o, ignorarColor: true };
-      pasos.push({ rel: "color", o, cats });
-    }
-    if (r.tacon !== null) {
-      o = { ...o, taconAdyacente: true };
-      pasos.push({ rel: "tacon", o, cats });
-    }
-    if (r.tiempo !== null) {
-      o = { ...o, ignorarEstacion: true };
-      pasos.push({ rel: "estacion", o, cats });
-    }
-    const todasCats = categoriasDeLaOcasion(r);
-    if (todasCats.length > fila.length) {
-      cats = todasCats;
-      pasos.push({ rel: "categorias", o, cats });
+    for (const rel of r.color === "concreto" ? ordenes.concreto : ordenes.general) {
+      if (!aplicable[rel]) continue;
+      if (rel === "color") o = { ...o, ignorarColor: true };
+      if (rel === "tacon") o = { ...o, taconAdyacente: true };
+      if (rel === "estacion") o = { ...o, ignorarEstacion: true };
+      if (rel === "categorias") cats = todasCats;
+      pasos.push({ rel, o, cats });
     }
 
-    const elegibles = (op: Opciones, cs: number[]) =>
-      catalogo.filter((p) => p.categorias.some((c) => cs.includes(c)) && puntuar(p, r, fila, op) >= UMBRAL);
+    const esElegible = (p: Producto, op: Opciones, cs: number[]) =>
+      p.categorias.some((c) => cs.includes(c)) && puntuar(p, r, fila, op) >= UMBRAL;
+    const elegibles = (op: Opciones, cs: number[]) => catalogo.filter((p) => esElegible(p, op, cs));
 
     let lista = elegibles(ESTRICTO, fila);
     const relajaciones: Relajacion[] = [];
+    const aplicados: Paso[] = [];
     for (const paso of pasos) {
       if (modelosDistintos(lista) >= N) break;
       relajaciones.push(paso.rel);
+      aplicados.push(paso);
       lista = elegibles(paso.o, paso.cats);
     }
+    /** 0 si encaja con todo; si no, cuántas relajaciones hicieron falta para admitirlo. */
+    const nivel = (p: Producto): number => {
+      if (esElegible(p, ESTRICTO, fila)) return 0;
+      const i = aplicados.findIndex((paso) => esElegible(p, paso.o, paso.cats));
+      return i === -1 ? aplicados.length + 1 : i + 1;
+    };
     // Red de seguridad (no debería ocurrir con el catálogo real; lo comprueban los tests):
     // todos los candidatos de la ocasión, sin umbral.
     if (modelosDistintos(lista) < N) {
@@ -177,9 +204,9 @@ export function crearRecomendador(
       }
     }
 
-    // Orden con la puntuación ESTRICTA (lo que encaja de verdad, primero).
+    // Primero lo que encaja de verdad; después, lo que necesitó menos relajaciones.
     const ranking = lista
-      .map((p) => ({ p, s: puntuar(p, r, fila) }))
+      .map((p) => ({ p, nivel: nivel(p), s: puntuar(p, r, fila) }))
       .sort(comparar)
       .map((x) => x.p);
 

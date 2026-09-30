@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { catalogo, crearRecomendador, filaDe, puntuar, recomendar, TABLA, tonosAceptados } from "@/lib/recomendador";
+import {
+  catalogo,
+  crearRecomendador,
+  filaDe,
+  ORDEN_RELAJACION,
+  ORDEN_RELAJACION_CONCRETO,
+  puntuar,
+  recomendar,
+  TABLA,
+  tonosAceptados,
+} from "@/lib/recomendador";
 import { TONOS_ELEGIBLES } from "@/lib/estado";
 import { config } from "@/content/config";
 import type { Producto, Respuestas, Tacon, Tiempo } from "@/types";
@@ -58,7 +68,7 @@ describe("todas las combinaciones con el catálogo real", () => {
       // urlTienda = primera categoría de la fila
       expect(res.urlTienda).toMatch(new RegExp(`^https://donpedrohabana\\.com/${filaDe(r)[0]}-`));
       // relajaciones en el orden de §5.3 y sin repetir
-      const orden = ["color", "tacon", "categorias"];
+      const orden: readonly string[] = r.color === "concreto" ? ORDEN_RELAJACION_CONCRETO : ORDEN_RELAJACION;
       const idx = res.relajaciones.map((x) => orden.indexOf(x));
       expect([...idx].sort((a, b) => a - b)).toEqual(idx);
       expect(new Set(res.relajaciones).size).toBe(res.relajaciones.length);
@@ -236,7 +246,7 @@ describe("honestidad del top", () => {
                 fallos.push(`${caso}: ${p.nombre}`);
               if (p.tacon && p.tacon !== tacon && !res.relajaciones.includes("tacon"))
                 fallos.push(`${caso}: ${p.nombre}`);
-              const temporadaAnunciada = res.relajaciones.includes("estacion") || res.relajaciones.includes("categorias");
+              const temporadaAnunciada = res.relajaciones.includes("estacion");
               if (!p.estaciones.includes(tiempo) && !temporadaAnunciada)
                 fallos.push(`${caso}: ${p.nombre} fuera de temporada`);
               if (tiempo === "frio" && /SANDALIA|ALPARGATA/i.test(p.nombre))

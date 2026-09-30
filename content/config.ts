@@ -5,12 +5,17 @@ export const config = {
   privacidadUrl: "https://donpedrohabana.com/content/6-politica-de-privacidad",
   cookiesUrl: "https://donpedrohabana.com/content/7-politica-de-cookies",
   condicionesUrl: "https://donpedrohabana.com/content/8-terminos-y-condiciones-del-servicio",
-  // R2b: dos burbujas cortas. La primera prepara la ficha de PrestaShop (talla preseleccionada).
-  // Coste de la recogida en devoluciones: NO se menciona (decisión del usuario, 2026-09-29).
-  pacto: [
-    "En la ficha, fíjese bien en su talla.",
-    "Se los prueba en casa, como aquí, y si no le convencen tiene 14 días para devolvérmelos.",
-  ],
+  // El pacto: Don Pedro lo dice en la trastienda, después del resumen y antes de "Ver los zapatos"
+  // (petición del usuario, 2026-09-30; texto del agente de persuasión). Condiciones reales: se prueba
+  // en casa y tiene 14 días; la única excepción son los zapatos personalizados o a medida. La talla
+  // primero, porque la ficha de PrestaShop trae una preseleccionada. El coste de la recogida NO se
+  // menciona (decisión del usuario, 2026-09-29) y nunca se dice que devolver sea gratis.
+  // "14 días" lleva espacio no separable. "zapatillas" = ocasión "casa" (femenino).
+  pacto: {
+    zapatos: ["Fíjese en su talla, y en casa se los prueba como aquí.", "Si no le quedan bien, tiene 14\u00a0días para devolvérmelos."],
+    zapatillas: ["Fíjese en su talla, y en casa se las prueba como aquí.", "Si no le quedan bien, tiene 14\u00a0días para devolvérmelas."],
+  },
+  /** No se muestra (petición del usuario: pacto breve); PrestaShop ya enseña los pagos al pagar. */
   pagos: "Pago con tarjeta, Bizum o transferencia.",
   envio: null as string | null, // PENDIENTE de confirmar con el cliente (12 € España y Portugal vs. solo Madrid). Si es null, no se renderiza
   numRecomendaciones: 6,

@@ -115,7 +115,9 @@ export function resumenRespuestas(r: Respuestas, relajaciones: Relajacion[] = []
   const difs: string[] = [];
   if (relajaciones.includes("color") && r.color !== "todos") difs.push(d.color);
   if (relajaciones.includes("tacon") && r.tacon) difs.push(d.tacon[r.tacon]);
-  if (relajaciones.includes("estacion") || relajaciones.includes("categorias")) difs.push(d.temporada);
+  // Ampliar categorías sin salirse de la temporada no contradice nada de lo dicho; en el orden
+  // general, "categorias" solo llega después de "estacion", que ya lo anuncia.
+  if (relajaciones.includes("estacion")) difs.push(d.temporada);
   const color = fraseColor(r);
   if (r.ocasion === "casa") {
     const extra = difs.length ? R.relajacionCasa(difs.join(d.conector)) : "";
