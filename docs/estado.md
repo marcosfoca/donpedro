@@ -12,6 +12,7 @@
 ## Jugabilidad y portada (2026-09-30, tarde) ✅
 - **El diálogo avanza al tocar**, al ritmo de cada clienta, en el cuadro o en cualquier parte de la pantalla. Los 3 primeros toques llevan la pastilla "Toque para seguir ›", que late; después, solo la flecha. La pregunta y la reacción del quiz también esperan un toque.
 - **Portada sin aspecto de landing:** logo de la tienda en el cielo (máscara teñida: tinta de día, crema de noche), "Toque la puerta para entrar", y la puerta como único botón con un brillo dorado que late.
+- **Trastienda: la espera avanza sola.** Frases con tiempo de lectura, puntos y sin la pista de tocar; al terminar la carga se pasa solo al resumen, que vuelve a avanzar al tocar.
 - **Fotos de producto sin ampliar** (`object-contain`): ya no se cortan según la proporción de la pantalla.
 - **QA móvil I-1:** al volver a hablar Don Pedro, la página sube. QA M-1: `@keyframes fundido` declarado.
 - Publicado en https://donpedro.howstudio.es (Vercel conectado a GitHub, `vercel.json` y `.vercelignore` anclado a la raíz).

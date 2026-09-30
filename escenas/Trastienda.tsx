@@ -138,7 +138,7 @@ export default function Trastienda() {
   }
 
   return (
-    // Las frases avanzan al tocar (el cuadro o cualquier parte); "Saltar" va directo al resumen.
+    // La espera avanza sola; tocar adelanta y "Saltar" va directo al resumen.
     <div>
       <EscenaTienda
         etiqueta={textos.trastienda.etiqueta}
@@ -159,7 +159,10 @@ export default function Trastienda() {
         }
         dialogo={
           <>
-            <CuadroDialogo key="espera" textos={textos.trastienda.burbujas} onFin={finEspera} />
+            {/* Espera automática (petición del usuario): los puntos piden esperar, no tocar. Las
+                frases pasan solas y, en cuanto están dichas y la selección está lista, se pasa
+                al resumen. Tocar adelanta; "Saltar" va directo. */}
+            <CuadroDialogo key="espera" textos={textos.trastienda.burbujas} onFin={finEspera} automatico />
             <PuntosEspera className="pastilla mx-auto mt-3 w-fit py-2" />
           </>
         }

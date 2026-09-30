@@ -21,8 +21,17 @@ type CuadroDialogoProps = {
   onFrase?: (i: number) => void;
   /** Pico hacia Don Pedro (debajo, de pie en la tienda) o sin pico (cuando no está). */
   pico?: "abajo" | "ninguno";
+  /**
+   * Momentos de espera (la trastienda, con los puntos de "cargando"): las frases avanzan solas con
+   * tiempo de lectura y sin la pista de tocar, porque ahí no se le pide nada a la clienta; al
+   * terminar la última se llama a onFin. Tocar sigue adelantando.
+   */
+  automatico?: boolean;
   className?: string;
 };
+
+/** Tiempo de lectura (solo en modo automático): ~65 ms por carácter, mínimo 2,4 s. */
+const lectura = (frase: string) => Math.max(2400, frase.length * 65);
 
 /**
  * Toques para avanzar que ya ha dado la clienta en esta visita. Las primeras veces la pista es muy
@@ -61,6 +70,7 @@ export function CuadroDialogo({
   onFin,
   onFrase,
   pico = "abajo",
+  automatico = false,
   className = "",
 }: CuadroDialogoProps) {
   const [i, setI] = useState(0);
@@ -83,10 +93,7 @@ export function CuadroDialogo({
 
   const quedaAlgo = actual < ultimo || (!!onFin && !terminado);
 
-  const tocar = () => {
-    if (!quedaAlgo) return;
-    sumarToque();
-    setEvidente(leerToques() < PISTAS_EVIDENTES);
+  const avanzar = () => {
     if (actual < ultimo) {
       setI((n) => Math.min(n + 1, ultimo));
       return;
@@ -94,6 +101,26 @@ export function CuadroDialogo({
     setTerminado(true);
     cb.current.onFin?.();
   };
+
+  const tocar = () => {
+    if (!quedaAlgo) return;
+    if (!automatico) {
+      sumarToque();
+      setEvidente(leerToques() < PISTAS_EVIDENTES);
+    }
+    avanzar();
+  };
+
+  // Modo automático: cada frase se queda su tiempo de lectura y pasa sola.
+  useEffect(() => {
+    if (!automatico || !quedaAlgo) return;
+    const id = window.setTimeout(avanzar, lectura(textos[actual] ?? ""));
+    return () => window.clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [automatico, actual, clave, terminado]);
+
+  /** Pista de tocar: solo cuando se espera un toque (no en los momentos automáticos). */
+  const pista = quedaAlgo && !automatico;
 
   return (
     <div aria-live="polite" className={className}>
@@ -111,19 +138,19 @@ export function CuadroDialogo({
       <button type="button" onClick={tocar} className="relative z-40 block w-full text-left">
         <Burbuja key={`${actual}-${textos[actual]}`} pico={pico} animacion="animate-dialogo" className="origin-bottom">
           {textos[actual]}
-          {quedaAlgo && !evidente ? (
+          {pista && !evidente ? (
             <span aria-hidden="true" className="ml-2 inline-block animate-pista font-bold text-cuero">
               ›
             </span>
           ) : null}
-          {quedaAlgo && evidente ? (
+          {pista && evidente ? (
             <span className="mt-2 flex w-fit animate-pista items-center gap-1.5 rounded-full bg-cuero px-3 py-1 font-sans text-base font-bold text-fondo shadow-md">
               {contenido.quiz.tocarParaSeguir}
               <span aria-hidden="true" className="text-[20px] leading-none">
                 ›
               </span>
             </span>
-          ) : quedaAlgo ? (
+          ) : pista ? (
             <span className="sr-only">{contenido.quiz.tocarParaSeguir}</span>
           ) : null}
         </Burbuja>
