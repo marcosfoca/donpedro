@@ -9,6 +9,14 @@
 **Fase 4 aprobada:** 2026-09-29 ("continúa")
 **Inicio:** 2026-09-29
 
+## Jugabilidad y portada (2026-09-30, tarde) ✅
+- **El diálogo avanza al tocar**, al ritmo de cada clienta, en el cuadro o en cualquier parte de la pantalla. Los 3 primeros toques llevan la pastilla "Toque para seguir ›", que late; después, solo la flecha. La pregunta y la reacción del quiz también esperan un toque.
+- **Portada sin aspecto de landing:** logo de la tienda en el cielo (máscara teñida: tinta de día, crema de noche), "Toque la puerta para entrar", y la puerta como único botón con un brillo dorado que late.
+- **Fotos de producto sin ampliar** (`object-contain`): ya no se cortan según la proporción de la pantalla.
+- **QA móvil I-1:** al volver a hablar Don Pedro, la página sube. QA M-1: `@keyframes fundido` declarado.
+- Publicado en https://donpedro.howstudio.es (Vercel conectado a GitHub, `vercel.json` y `.vercelignore` anclado a la raíz).
+- Pendiente de la QA móvil: I-2 (pantallas de 640 px de alto o menos), I-4 (foco del teclado), M-2 a M-10.
+
 ## Publicación (2026-09-30)
 - Enlace para probar: **https://donpedro-seven.vercel.app** (Vercel, proyecto `donpedro` de la cuenta marcos-8439, build estático ya compilado).
 - Código: https://github.com/marcosfoca/donpedro (público; sin `.env.local` ni `arte/referencias/`).

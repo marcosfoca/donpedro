@@ -4,12 +4,13 @@
  * Contrato: page.tsx monta <Pregunta key={fase} pregunta={fase} /> (se remonta en cada pregunta).
  *
  * Cada cosa tiene su momento (petición del usuario, 2026-09-30):
- *   1. "dialogo": Don Pedro, de pie en la tienda, hace la pregunta (cuadro arriba).
+ *   1. "dialogo": Don Pedro, de pie en la tienda, hace la pregunta (cuadro arriba). Se sigue AL
+ *      TOCAR (petición del usuario: cada clienta a su ritmo), igual que tras la reacción.
  *   2. "opciones": Don Pedro se retira, la pregunta se queda arriba y las tarjetas salen con
  *      rebote en cascada, icono y brillo (efecto "wow" de aparición).
  *   3. "eligiendo": la tarjeta elegida rebota con anillo, sello y chispas; las demás se apartan.
  *   4. "cerrando" → "reaccion": las opciones se retiran, Don Pedro vuelve contento y reacciona
- *      (≤ 40 caracteres, 2,4 s; tocar adelanta) y se pasa a la pregunta siguiente.
+ *      (≤ 40 caracteres) y, al tocar, se pasa a la pregunta siguiente.
  * En Q4, "Uno en concreto" abre "dialogoColores" → "colores" (muestras, una o varias, y "Seguir").
  * Si la pregunta ya tenía respuesta (volver con "Atrás"), se empieza en "opciones".
  * Consejo 2026-09-30 (docs/decisiones/2026-09-30-momentos-quiz.md): el guía se retira durante las
@@ -113,6 +114,12 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
   };
 
   const habla = HABLA.includes(momento);
+
+  // Cuando Don Pedro vuelve a hablar, arriba: si la página estaba desplazada (muestras en pantallas
+  // bajas), su cuadro quedaba fuera de la vista (QA móvil, I-1).
+  useEffect(() => {
+    if (HABLA.includes(momento)) window.scrollTo({ top: 0 });
+  }, [momento]);
   const conOpciones = momento === "opciones" || momento === "eligiendo" || momento === "cerrando";
   const conColores = momento === "colores" || momento === "cerrandoColores";
   const seleccion = elegida ?? guardada ?? null;
@@ -121,20 +128,14 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
   /** Pasa de un momento a otro solo si seguimos en el de origen (los temporizadores llegan tarde). */
   const pasar = (de: Momento, a: Momento) => () => setMomento((m) => (m === de ? a : m));
 
-  // Qué dice el cuadro en cada momento (la key nueva monta otra conversación).
+  // Qué dice el cuadro en cada momento (la key nueva monta otra conversación). Mientras habla,
+  // se avanza AL TOCAR (el cuadro o cualquier parte): cada clienta a su ritmo.
   const dialogo =
     momento === "reaccion"
-      ? { key: "reaccion", frase: t.reacciones[elegida ?? ""] ?? "", fin: seguir, finMs: undefined }
+      ? { key: "reaccion", frase: t.reacciones[elegida ?? ""] ?? "", fin: seguir }
       : momento === "dialogoColores" || conColores
-        ? { key: "colores", frase: textos.colores.pregunta, fin: pasar("dialogoColores", "colores"), finMs: movimiento.preguntaMs }
-        : { key: "pregunta", frase: t.pregunta, fin: pasar("dialogo", "opciones"), finMs: movimiento.preguntaMs };
-
-  /** Mientras habla, tocar en cualquier sitio adelanta. */
-  const adelantar = () => {
-    if (momento === "reaccion") seguir();
-    else if (momento === "dialogo") pasar("dialogo", "opciones")();
-    else if (momento === "dialogoColores") pasar("dialogoColores", "colores")();
-  };
+        ? { key: "colores", frase: textos.colores.pregunta, fin: pasar("dialogoColores", "colores") }
+        : { key: "pregunta", frase: t.pregunta, fin: pasar("dialogo", "opciones") };
 
   return (
     <EscenaTienda
@@ -143,24 +144,12 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
       donPedro={habla}
       arriba={progreso ? <BarraProgreso paso={progreso.paso} total={progreso.total} /> : null}
       dialogo={
-        <>
-          {habla ? (
-            <button
-              type="button"
-              onClick={adelantar}
-              aria-label={textos.quiz.tocarParaSeguir}
-              className="fixed inset-0 z-40 cursor-pointer bg-transparent"
-            />
-          ) : null}
-          <CuadroDialogo
-            key={dialogo.key}
-            textos={[dialogo.frase]}
-            onFin={dialogo.fin}
-            finMs={dialogo.finMs}
-            pico={habla ? "abajo" : "ninguno"}
-            className="relative z-40"
-          />
-        </>
+        <CuadroDialogo
+          key={dialogo.key}
+          textos={[dialogo.frase]}
+          onFin={habla ? dialogo.fin : undefined}
+          pico={habla ? "abajo" : "ninguno"}
+        />
       }
       pie={
         conOpciones || conColores ? (

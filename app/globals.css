@@ -27,6 +27,15 @@
   }
 }
 
+@keyframes fundido {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* Respeto a prefers-reduced-motion: sin desplazamientos ni zooms, solo fundidos cortos. */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -49,6 +58,13 @@
   .opcion-brillo::after,
   .opcion-chispa {
     display: none !important;
+  }
+  /* Sin latido: la puerta queda iluminada, quieta. */
+  .puerta-brillo {
+    animation: none !important;
+    box-shadow:
+      0 0 0 3px rgba(255, 228, 150, 0.95),
+      0 0 30px 10px rgba(255, 205, 110, 0.6);
   }
   .animate-punto {
     animation: none !important;
@@ -251,6 +267,35 @@ html[data-momento="noche"] .fachada-velo {
 html[data-momento="noche"] .fachada-titulos {
   color: theme("colors.crema.DEFAULT");
   text-shadow: 0 1px 2px rgba(43, 33, 24, 0.65), 0 2px 14px rgba(43, 33, 24, 0.55);
+}
+
+/* Logo de la portada: máscara del logo real teñida con el color del texto (tinta / crema). */
+.logo-mascara {
+  background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+  filter: drop-shadow(0 1px 0 rgba(251, 247, 234, 0.6));
+}
+html[data-momento="noche"] .logo-mascara {
+  filter: drop-shadow(0 1px 2px rgba(43, 33, 24, 0.6));
+}
+
+/* La puerta invita a tocarla: un brillo dorado que late sin parar alrededor de la hoja. */
+.puerta-brillo {
+  animation: puerta-brillo 1.8s ease-in-out infinite;
+}
+@keyframes puerta-brillo {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 2px rgba(255, 222, 140, 0.35),
+      0 0 14px 4px rgba(255, 205, 110, 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgba(255, 228, 150, 0.95),
+      0 0 34px 12px rgba(255, 205, 110, 0.75);
+  }
 }
 
 /* Usuaria que vuelve (p. ej. atrás desde una ficha de la tienda): el script en línea marca

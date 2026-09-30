@@ -16,6 +16,8 @@ export const assets = {
     dia: { movil: "/arte/fachada/puerta-dia-movil.webp", escritorio: "/arte/fachada/puerta-dia-escritorio.webp" },
     noche: { movil: "/arte/fachada/puerta-noche-movil.webp", escritorio: "/arte/fachada/puerta-noche-escritorio.webp" },
   },
+  /** Logo de la tienda (de su web) como máscara: se tiñe con el color del texto del cielo. */
+  logo: "/arte/logo-mascara.webp",
   interior: { movil: "/arte/interior-movil.webp", escritorio: "/arte/interior-escritorio.webp" }, // A3
   iconos: {
     q1: {

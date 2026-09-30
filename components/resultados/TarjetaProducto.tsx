@@ -72,9 +72,9 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
             fetchPriority={prioritaria ? "high" : undefined}
             decoding="async"
             onError={() => setSinFoto(true)}
-            // Las fotos de PrestaShop traen ~15 % de margen blanco por lado: se amplían sin recortar
-            // el zapato (el contenedor tiene overflow-hidden).
-            className="absolute inset-0 h-full w-full scale-[1.3] object-contain"
+            // Sin ampliar: con scale el zapato se cortaba por los bordes según la proporción de la
+            // celda (petición del usuario). object-contain garantiza que se ve entero.
+            className="absolute inset-0 h-full w-full object-contain"
           />
         )}
         {/* Etiqueta corta en móvil (en escritorio ya se ve el nombre): "Salón · tacón bajo". */}

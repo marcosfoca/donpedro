@@ -1,11 +1,13 @@
 "use client";
 /**
- * F — La fachada (diseno.md §2). Hero a 100dvh: título y subtítulo en el cielo, CTA "Abrir la
- * puerta" por encima del pliegue y la puerta ilustrada como segundo destino táctil.
+ * F — La fachada (diseno.md §2). NO es un hero de landing (petición del usuario, 2026-09-30): en
+ * los primeros 3 segundos tiene que notarse que es una experiencia. En el cielo, el logo de la
+ * tienda y una sola indicación ("Toque la puerta para entrar"); la PUERTA es el único botón y
+ * lleva un brillo dorado que late sin parar para invitar a tocarla.
  * Mientras se ve, se precarga el interior (A3) para que T y S aparezcan al instante (§5.6).
  */
-import { useEffect, useRef } from "react";
-import { Boton, Escena } from "@/components/base";
+import { useEffect, useRef, type CSSProperties } from "react";
+import { Escena } from "@/components/base";
 import { CapaFachada, useEsEscritorio } from "@/components/fachada/CapaFachada";
 import { MEDIA_ESCRITORIO } from "@/components/fachada/geometria";
 import { assets } from "@/content/assets";
@@ -64,15 +66,13 @@ export default function Fachada() {
       <CapaFachada
         alt={textos.fachada.altFachada}
         puerta={(estilo) => (
-          // Segundo destino táctil (hace lo mismo que el botón): fuera del orden de tabulación y del
-          // árbol accesible para no duplicar la acción.
+          // La puerta es EL botón de la portada: con nombre accesible y en el orden de tabulación.
           <button
             type="button"
             onClick={abrir}
-            tabIndex={-1}
-            aria-hidden="true"
+            aria-label={textos.fachada.etiquetaPuerta}
             style={estilo}
-            className="group z-0 block min-h-tactil min-w-tactil cursor-pointer rounded-t-md focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-marino"
+            className="puerta-brillo group z-20 block min-h-tactil min-w-tactil cursor-pointer rounded-t-md focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-marino"
           >
             {puerta ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -90,19 +90,24 @@ export default function Fachada() {
       {/* Velo del cielo (app/globals.css): claro de día, oscuro de noche, según <html data-momento>. */}
       <div aria-hidden="true" className="fachada-velo pointer-events-none absolute inset-x-0 top-0 h-[55%]" />
 
-      {/* Título, promesa y botón viven en el cielo: la fachada (y su puerta) queda entera a la vista. */}
+      {/* En el cielo: logo e indicación. La fachada (y su puerta) queda entera a la vista. */}
       <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-xl flex-col justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[68px] md:pt-20">
         <div className="flex flex-col items-center gap-4 [@media(max-height:700px)]:gap-2.5">
-          {/* De día, tinta sobre el cielo dorado (~9:1); de noche, crema sobre azul marino. */}
-          <header className="fachada-titulos text-center">
-            <h1 className="font-serif text-titulo font-bold">{textos.fachada.titulo}</h1>
-            <p className="mx-auto mt-2 max-w-md font-serif text-subtitulo [@media(max-height:700px)]:mt-1">{textos.fachada.subtitulo}</p>
+          {/* De día, tinta sobre el cielo dorado (~9:1); de noche, crema sobre azul marino. El logo
+              es una máscara teñida con el color del texto, así cambia con el momento del día. */}
+          <header className="fachada-titulos flex flex-col items-center text-center">
+            <h1 className="w-[min(78vw,360px)]">
+              <span
+                aria-hidden="true"
+                className="logo-mascara block aspect-[766/120] w-full"
+                style={{ "--logo": `url(${assets.logo})` } as CSSProperties}
+              />
+              <span className="sr-only">{textos.fachada.titulo}</span>
+            </h1>
+            <p className="mt-4 font-serif text-subtitulo font-semibold [@media(max-height:700px)]:mt-2">
+              {textos.fachada.indicacion}
+            </p>
           </header>
-          <div className="pointer-events-auto w-full max-w-xs">
-            <Boton onClick={abrir} className="shadow-lg">
-              {textos.fachada.cta}
-            </Boton>
-          </div>
         </div>
 
         <p className="mx-auto rounded-full bg-fondo/90 px-3 py-0.5 text-center font-sans text-[15px] leading-[22px] text-tinta shadow-sm">

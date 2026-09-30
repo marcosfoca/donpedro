@@ -25,9 +25,6 @@ import { resumenRespuestas } from "@/lib/texto";
 /** ok: con la frase de Don Pedro que resume sus respuestas (y la relajación honesta, si la hubo). */
 type Resultado = { ok: true; frases: string[] } | { ok: false; motivo: string };
 
-/** La última frase de la espera no necesita toda su lectura: los puntos ya marcan la pausa. */
-const FIN_ESPERA_MS = 1800;
-
 export default function Trastienda() {
   const { avanzar, retroceder, respuestasCompletas } = useEstado();
   const [error, setError] = useState(false);
@@ -141,8 +138,8 @@ export default function Trastienda() {
   }
 
   return (
-    // Tocar en cualquier parte salta la espera; el botón "Saltar" da la misma opción con teclado.
-    <div onClick={finEspera} className="cursor-pointer">
+    // Las frases avanzan al tocar (el cuadro o cualquier parte); "Saltar" va directo al resumen.
+    <div>
       <EscenaTienda
         etiqueta={textos.trastienda.etiqueta}
         pose="trastienda"
@@ -162,7 +159,7 @@ export default function Trastienda() {
         }
         dialogo={
           <>
-            <CuadroDialogo key="espera" textos={textos.trastienda.burbujas} onFin={finEspera} finMs={FIN_ESPERA_MS} />
+            <CuadroDialogo key="espera" textos={textos.trastienda.burbujas} onFin={finEspera} />
             <PuntosEspera className="pastilla mx-auto mt-3 w-fit py-2" />
           </>
         }

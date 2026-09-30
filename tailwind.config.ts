@@ -58,6 +58,11 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(10px) scale(0.94)" },
           "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
+        // "Toque para seguir": se mueve hacia la derecha y late, sin parar, para que se vea.
+        pista: {
+          "0%, 100%": { transform: "translateX(0)", opacity: "1" },
+          "50%": { transform: "translateX(5px)", opacity: "0.75" },
+        },
         punto: {
           "0%, 80%, 100%": { opacity: "0.25" },
           "40%": { opacity: "1" },
@@ -67,6 +72,7 @@ const config: Config = {
         aparecer: `aparecer ${movimiento.aparicionMs}ms ${movimiento.easing} both`,
         fundido: `fundido ${movimiento.fundidoReducidoMs}ms ease-out both`,
         dialogo: `dialogo 380ms cubic-bezier(0.34, 1.4, 0.64, 1) both`,
+        pista: "pista 1.1s ease-in-out infinite",
         punto: "punto 1.2s ease-in-out infinite",
       },
     },

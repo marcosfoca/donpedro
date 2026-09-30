@@ -23,8 +23,8 @@ export type PreguntaTexto<Id extends string> = {
 // ---------- F — Fachada ----------
 const fachada = {
   titulo: "Don Pedro le atiende",
-  subtitulo: "Cuatro preguntas y le saco los zapatos que yo le pondría.",
-  cta: "Abrir la puerta",
+  /** Única indicación de la portada: la puerta es el botón (con brillo que late). */
+  indicacion: "Toque la puerta para entrar",
   direccion: "Paseo de la Habana, 50 · Madrid · Desde 1958",
   altFachada: "Fachada de la Zapatería Don Pedro, Paseo de la Habana, 50",
   etiquetaPuerta: "Abrir la puerta de la tienda",

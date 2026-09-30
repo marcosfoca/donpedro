@@ -51,10 +51,13 @@ export function EscenaTienda({
       claseContenido="relative mx-auto flex min-h-pantalla w-full max-w-xl flex-col px-4 pb-4 pt-3"
     >
       <DonPedroEnTienda pose={pose} presente={donPedro} />
-      <div className="relative flex min-h-tactil items-center gap-2 pr-28">{arriba}</div>
-      <div className="relative mt-3">{dialogo}</div>
-      <div className="relative mt-3 flex flex-1 flex-col">{children}</div>
-      <div className="relative mt-3 flex min-h-boton items-end gap-3">{pie}</div>
+      {/* Capas: el diálogo (z-40) lleva una capa que avanza al tocar en cualquier parte; arriba (z-50),
+          el contenido y el pie (z-40, después en el DOM) quedan por encima y se pueden tocar. */}
+      {/* Los contenedores no atrapan toques (pointer-events-none); solo su contenido real. */}
+      <div className="pointer-events-none relative z-50 flex min-h-tactil items-center gap-2 pr-28 [&>*]:pointer-events-auto">{arriba}</div>
+      <div className="relative z-40 mt-3">{dialogo}</div>
+      <div className="pointer-events-none relative z-40 mt-3 flex flex-1 flex-col [&>*]:pointer-events-auto">{children}</div>
+      <div className="pointer-events-none relative z-40 mt-3 flex min-h-boton items-end gap-3 [&>*]:pointer-events-auto">{pie}</div>
     </Escena>
   );
 }

@@ -26,14 +26,10 @@ export const movimiento = {
   entradaMs: 1200, // transición T (puerta)
   fundidoReducidoMs: 300, // sustituto con prefers-reduced-motion
   aparicionMs: 350, // aparición de una burbuja / tarjeta
-  preguntaMs: 1500, // la pregunta de Don Pedro, antes de que salgan las opciones (la pregunta se queda arriba)
   eleccionMs: 650, // efecto de la tarjeta elegida antes de que Don Pedro reaccione
   salidaMs: 260, // las opciones se retiran y vuelve Don Pedro
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
 } as const;
-
-/** Tiempo de lectura de una frase de Don Pedro (público sénior): ~65 ms por carácter, mínimo 2,4 s. */
-export const lectura = (frase: string) => Math.max(movimiento.reaccionMs, frase.length * 65);
 
 /** Tamaños mínimos sénior (px). */
 export const tamanos = {
