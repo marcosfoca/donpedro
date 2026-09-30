@@ -140,7 +140,10 @@ export default function Recomendaciones() {
   const { resultado } = calculo;
 
   return (
-    <section aria-label={ETIQUETA} className="relative isolate flex w-full flex-col">
+    <section
+      aria-label={respuestasCompletas.ocasion === "casa" ? textos.resultados.etiquetaCasa : ETIQUETA}
+      className="relative isolate flex w-full flex-col"
+    >
       {/* Seguimos dentro de la tienda, pero opacada para que manden las fotos (petición del usuario). */}
       <FondoOpacado />
 
@@ -148,11 +151,15 @@ export default function Recomendaciones() {
         {textos.resultados.titulo}
       </h1>
       {/* Lo que Don Pedro dijo en la trastienda, para los lectores de pantalla. */}
-      <p className="sr-only">{resumenRespuestas(respuestasCompletas, resultado.relajaciones)}</p>
+      <p className="sr-only">{resumenRespuestas(respuestasCompletas, resultado.relajaciones).join(" ")}</p>
 
       <Cuadricula productos={resultado.top} etiqueta={textos.resultados.etiquetaCuadricula} />
 
-      <MasZapatos mas={resultado.mas} posicionInicial={resultado.top.length + 1} />
+      <MasZapatos
+        mas={resultado.mas}
+        posicionInicial={resultado.top.length + 1}
+        titulo={respuestasCompletas.ocasion === "casa" ? textos.resultados.masTituloCasa : textos.resultados.masTitulo}
+      />
 
       <div className="mx-auto w-full max-w-md px-4 pb-10 pt-2">
         <Boton

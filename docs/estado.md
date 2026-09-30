@@ -101,7 +101,21 @@ Petición del usuario, aplicada y probada a 375×667 (dev y build estático). ts
 - Dato: con un color raro suelto (gris, rojo, verde, rosa, blanco, metalizado) el recomendador casi siempre completa con otros colores y Don Pedro lo avisa ("y alguno de otro color"); con "Discretos", solo en 5 de 27 combinaciones.
 
 Pendiente:
-- Decidir si, con "Uno en concreto", se relaja antes el tacón o la temporada que el color (hoy el color es lo primero que se relaja, igual que en el resto).
-- Decidir si el pacto (talla y 14 días de devolución) lo dice Don Pedro en la trastienda antes de "Ver los zapatos": ya no aparece en ningún sitio y es la reversión de riesgo.
+- Auditoría de voz relanzada (`docs/auditorias/voz.md`), con 1 crítico y 4 importantes. Aplicado:
+  - Resumen en 2 frases de 55 caracteres o menos, más una frase de relajación sin paréntesis, con un test que lo comprueba en todas las combinaciones.
+  - Variante "casa" nombrada: "Ver las zapatillas", "Más zapatillas para usted".
+  - Saludo acortado.
+  - Reacciones de Q2, Q3 y Q4.
+  - "Metalizado" como único nombre del tono.
+  - Error de la trastienda: "Ver todos los zapatos".
+  - "plana" en los tipos femeninos.
+  - `alt` sin duplicar.
+  - openGraph con la fachada.
+  - Enlace a las condiciones en el pie.
+  - `diseno.md` remite a `textos.ts`.
+- Decisiones del usuario abiertas (auditoría de voz):
+  - **I1.** Del final de Q4 a "Ver los zapatos" hay 6 o 7 frases seguidas sin que la clienta actúe (la regla dice 3 como máximo). Propuesta: que el pacto sea la respuesta a un botón "¿Y si no me quedan bien?".
+  - **Título "Recomendaciones".** Suena a web.
+  - **Botón "Ver toda la tienda".** Lleva a /10-zapatos y la tienda también vende bolsos.
 - Relanzar las auditorías afectadas (qa-movil y voz) y cerrar la fase 7 con la entrega (resumen, variables, cómo editar contenido).
 - Confirmar con el cliente la zona y el coste de envío (hoy no se muestra en ningún sitio).

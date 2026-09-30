@@ -42,7 +42,7 @@ Landing de **asesor de calzado** para **vender online**. La clienta llega a la f
 5. Piropos a los zapatos, **nunca al cuerpo** de la clienta.
 6. Don Pedro nunca habla de sí mismo más de una frase seguida.
 7. **Vocabulario permitido:** pie, horma, piel, suela, tacón, cuña, plano, par, zapato, la casa, el taller, la trastienda, ocasión, cómoda, arreglada, de vestir, de diario.
-8. **Vocabulario prohibido:** producto, artículo, SKU, catálogo, oferta, descuento, promoción, stock, últimas unidades, envío gratis, envío gratis, devolución gratis, look, outfit, must-have, tendencia *top*, "IA", "algoritmo", "personalizado por nuestro sistema".
+8. **Vocabulario prohibido:** producto, artículo, SKU, catálogo, oferta, descuento, promoción, stock, últimas unidades, envío gratis, devolución gratis, look, outfit, must-have, tendencia *top*, "IA", "algoritmo", "personalizado por nuestro sistema".
 9. Los errores y los estados vacíos también los dice Don Pedro (ver §2, pantalla E).
 10. Nada de urgencia ni escasez.
 
@@ -58,7 +58,7 @@ Landing de **asesor de calzado** para **vender online**. La clienta llega a la f
 
 Convenciones: **[DP]** = burbuja de Don Pedro. `{saludo}` = "Buenos días" (6–13 h), "Buenas tardes" (13–21 h) o "Buenas noches" (21–6 h), según la hora local del dispositivo.
 
-> **Cambio 2026-09-30 (petición del usuario): cada cosa tiene su momento.** Don Pedro está **de pie en el suelo de la tienda**, delante del mostrador (54 % del alto, los pies a 84 px del borde), y habla en **un solo cuadro de diálogo arriba**, con el pico hacia él, que pasa **frase a frase** (≈65 ms por carácter, mínimo 2,4 s; tocar adelanta). Lo demás sale **después** de que hable: en las preguntas, Don Pedro pregunta → se retira y salen las opciones (la pregunta se queda arriba) → al elegir, efecto de elección → vuelve y reacciona. Componentes: `EscenaTienda`, `DonPedroEnTienda`, `CuadroDialogo`. Donde este guion diga "burbujas" o "miniatura", manda este cambio.
+> **Cambio 2026-09-30 (petición del usuario): cada cosa tiene su momento.** Don Pedro está **de pie en el suelo de la tienda**, delante del mostrador (54 % del alto, los pies a 84 px del borde), y habla en **un solo cuadro de diálogo arriba**, con el pico hacia él, que pasa **frase a frase** (≈65 ms por carácter, mínimo 2,4 s; tocar adelanta). Lo demás sale **después** de que hable: en las preguntas, Don Pedro pregunta → se retira y salen las opciones (la pregunta se queda arriba) → al elegir, efecto de elección → vuelve y reacciona. Componentes: `EscenaTienda`, `DonPedroEnTienda`, `CuadroDialogo`. Donde este guion diga "burbujas" o "miniatura", manda este cambio. **Los textos literales vigentes están en `content/textos.ts` y `content/config.ts`, y mandan sobre los que se citan en este guion.** Cada frase del cuadro mide 55 caracteres o menos (2 líneas a 375 px), y un test lo comprueba en el resumen.
 
 ### F — La fachada (hero)
 - **Ve:** ilustración a pantalla completa (100dvh) de la fachada real: rótulo "Don Pedro" en cursiva marrón, "CASA FUNDADA EN 1958", toldo marrón "Zapatos · Bolsos · Complementos", escaparate lleno de zapatos, puerta de cristal con marco marrón y felpudo. Luz de tarde dorada.
@@ -156,9 +156,9 @@ Convenciones: **[DP]** = burbuja de Don Pedro. `{saludo}` = "Buenos días" (6–
 Pantalla principal de venta. **Cierra el bucle 1.** Rehecha el 2026-09-30 a petición del usuario.
 
 **Antes, en la trastienda:** Don Pedro (pose **señalando**, de pie en la tienda) **dice** el resumen de sus respuestas reales y el botón "Ver los zapatos" abre la selección.
-- Plantilla: **"Para {ocasión}, {tiempo}, {tacón} y {color}, yo le pondría estos{relajación}:"** (casa: "Para estar en casa y {color}, yo le pondría estas{relajación}:").
+- Resumen en 2 frases de 55 caracteres o menos: **"Para {ocasión}, {tiempo}, {tacón}…"** / **"…y {color}: le he sacado seis."** (casa: "Unas zapatillas para estar en casa…" / "…{color}: le he sacado seis."). Después, el pacto (`config.pacto`), en 2 frases, y "Ver los zapatos" (en casa, "Ver las zapatillas").
 - Color: "en colores discretos" · "en colores llamativos" · "del color que sea" · concretos: "en negro", "en negro o azul marino", "en negro, gris o metalizado"; con más de 3, "en los colores que me ha dicho".
-- Relajación honesta dentro de la frase: " (y alguno de otro color o de otra temporada)".
+- Relajación honesta, dicha en su propia frase: "Hay alguno de otro color: no tenía más." Si no cabe: "Hay alguno distinto de lo que me ha dicho."
 
 **La página de resultados muestra SOLO esto, en este orden** (sin reseñas, pacto, despedida ni "Volver a empezar"):
 1. El interior de la tienda **opacado** detrás (velo crema al 70 %), fijo.
@@ -167,7 +167,7 @@ Pantalla principal de venta. **Cierra el bucle 1.** Rehecha el 2026-09-30 a peti
 4. **"Más zapatos para usted"**: el resto del ranking (hasta `config.maxMasZapatos`), todos a la vista, para bajar con scroll.
 5. **Un solo botón: "Ver toda la tienda"** → `config.tiendaZapatosUrl`.
 
-El pie legal lo pone el layout. Las reseñas (`content/resenas.ts`) y el pacto (`config.pacto`, `config.pagos`) se conservan en el contenido, pero no se muestran.
+El pie legal lo pone el layout. Las reseñas (`content/resenas.ts`) y los pagos (`config.pagos`) se conservan en el contenido, pero no se muestran. El pacto lo dice Don Pedro en la trastienda.
 
 ---
 

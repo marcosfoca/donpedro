@@ -9,6 +9,7 @@ export function Pie() {
     { href: config.avisoLegalUrl, texto: textos.pie.avisoLegal },
     { href: config.privacidadUrl, texto: textos.pie.privacidad },
     { href: config.cookiesUrl, texto: textos.pie.cookies },
+    { href: config.condicionesUrl, texto: textos.pie.condiciones },
   ];
   return (
     <footer className="relative z-10 border-t-2 border-dorado bg-fondo px-4 py-6 text-center font-sans text-base text-gris">

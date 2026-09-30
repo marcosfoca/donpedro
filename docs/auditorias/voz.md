@@ -1,78 +1,90 @@
-# Auditoría de voz — "Don Pedro le atiende"
+# Auditoría de voz: "Don Pedro le atiende" (relanzamiento)
 
-2026-09-29 · auditor-voz (solo lectura) · biblia: diseno.md §1, narrativa.md.
+2026-09-30 · auditor-voz (solo lectura) · biblia: `docs/diseno.md` §1–2, `narrativa.md`, `patrones.md`.
 
 ## Veredicto
-**Lo que aguanta:**
-- Usted en el 100 % de los textos de Don Pedro.
-- 0 términos del vocabulario prohibido en texto visible, ni en los 611 nombres del catálogo.
-- Sin urgencia ni piropos al cuerpo; no se promete gratuidad.
-- "Magüi y Kiska" aparecen una sola vez; signos ¡ y ¿ correctos.
+**La voz está bien; la medida, no.**
+- Don Pedro trata de usted en el 100 % de los textos.
+- No aparece ningún término del vocabulario prohibido (buscado en `content/`, `components/`, `escenas/`, `app/` y en los nombres del catálogo).
+- El pacto no promete que devolver sea gratis, no hay urgencia y los errores y el 404 los dice Don Pedro dentro de la tienda.
 
 **Lo que falla:**
-- El 404 y la página de error salen **en inglés**.
-- Burbujas de más de 2 líneas; las reacciones son ilegibles en 1,2 s.
-- Nombres de catálogo con tildes perdidas, nombres propios en minúscula y erratas.
+- La frase de conversión (el resumen de la trastienda) ocupa de 3 a 6 líneas en un cuadro pensado para 2.
+- Se encadenan 6 frases sin que la clienta actúe.
+- La rama "casa" no nombra nunca las zapatillas.
 
-Recuento: 3 altas · 9 medias · 22 bajas.
+**Recuento:** 1 crítico · 4 importantes · 12 menores.
 
-## Altas
-- **A1. Reacciones ilegibles.** `reaccionMs: 1200` (`lib/tokens.ts:26`) con reacciones de 45–73 caracteres. Propuesta: reacciones de 40 caracteres o menos y 2,2–2,5 s.
-- **A2. Reacciones más cortas** (`content/textos.ts`), propuestas:
-  - diario: "Los de todos los días no pueden fallar."
-  - celebracion: "¡Qué alegría! Ahí se está mucho de pie."
-  - caminar: "Primero el pie; lo bonito viene luego."
-  - casa: "A gusto en casa. Solo me falta una cosa."
-  - entretiempo: "Lo más difícil en Madrid. Apuntado."
-  - calor: "Pie fresquito, que agosto no perdona."
-  - plano: "Plano no quiere decir sin gracia." (quitar "Muy bien hecho", que suena condescendiente)
-  - bajo: "Lo que más me piden: altura sin sufrir."
-  - tacon: "Tacón, sí; pero sin sufrir."
-  - color: "¡Eso me gusta! El color alegra la calle."
-  - todos: "Elijo yo. No la voy a defraudar."
-- **A3. Falta `app/not-found.tsx` y `app/error.tsx`.** Hoy salen el 404 y el error de Next en inglés. Propuesta:
-  - 404: "Vaya, esta puerta no lleva a ningún sitio." / "Vuelva a la entrada, que le atiendo yo." + botón "Volver a la entrada".
-  - Error: "Vaya, se me ha caído una caja del mostrador." / "Empecemos otra vez, que no tardo nada." + botón "Volver a empezar".
+Medida: el texto del cuadro mide 299 px en Vollkorn de 20 px, unas 31 letras por línea. Dos líneas son como mucho unos **55 caracteres**.
 
-## Medias
-- **M1. Pacto de 131 caracteres.** Pasarlo a 2 burbujas: "Pídaselos tranquila: se los prueba en casa, como aquí." / "Y si no le convencen, tiene 14 días para devolvérmelos."
-- **M2. Relajación larga y sin concordancia en `casa`.** Propuesta: "No tenía más {f}; le he puesto alguno parecido." y, en `casa`, "alguna parecida".
-- **M3. "de ese tipo" no dice nada.** Sustituir por "para el frío / para el entretiempo / para el calor".
-- **M4. Tres "con" seguidos en R1.** Usar "de poco tacón", "de tacón", "de color".
-- **M5. El error de trastienda promete "se lo busco allí".** Propuesta: "Vaya, se me ha atascado la puerta de la trastienda." / "Pase a la tienda, que allí están todos los pares."
-- **M6. "Foto no disponible" no lo dice Don Pedro.** Propuesta: "Se me ha escondido la foto" + nombre en sr-only cuando no hay foto.
-- **M7. "Ver toda la tienda" lleva a una categoría.** Propuesta: "Ver todos los botines", etc.
-- **M8. Tildes y nombres propios en `tipoOracion`.** Añadir inspiración, talón, petróleo, París, y Elena, Bonny, Passy, Leyna, Malori, Triana, H.
-- **M9. Erratas del catálogo** (charol, elásticos, plata, beige, "alto alto", "tiras tiras"). Corregirlas en PrestaShop; mientras tanto, un mapa `CORRECCIONES`.
+## Hallazgos
 
-## Bajas (resumen)
-- **B1–B5. Textos más cortos:**
-  - S2: "Soy Pedro: abrí esta casa…"
-  - S3: "Dígame cuatro cosas y le saco lo que yo le pondría."
-  - "Empezamos" frente a la regla del infinitivo: anotar la excepción.
-  - Q3: "Dígame la verdad: ¿qué tal con el tacón?"
-  - oscuros: "Combinan con todo. Buena elección."
-- **B6.** `aria-label` en los "Saltar": "Saltar el saludo" y "Saltar la espera".
-- **B7.** Usar `textos.entrada.etiqueta` en Entrada.
-- **B8–B12. Literales fuera de `content/`:** etiquetas de sección, "{nombre} dice:" y aria-label del pie.
-- **B13.** BotonSonido: quitar el aria-label que cambia y dejar "Sonido" con aria-pressed.
-- **B14–B15.** aria-label de la cuadrícula y del pacto.
-- **B16.** "Más zapatos" vacío sin voz.
-- **B17.** La red de seguridad del recomendador no anuncia la relajación.
-- **B18.** Texto `errores.imagen` sin usar.
-- **B19.** "Paseo de la Habana, 50" siempre con coma.
-- **B20.** `lang="es-ES"`.
-- **B21.** Saludos por hora a `content/` y corte a las 14 h ("buenos días" hasta comer en Madrid).
-- **B22.** openGraph para compartir por WhatsApp.
+### Crítico
+**C1. El resumen no cabe y habla sin referente.**
+- Mide de 74 a 148 caracteres (de 3 a 6 líneas).
+- El paréntesis de la relajación no se puede decir en voz alta.
+- "estos/estas" no señala nada, porque los zapatos aún no se ven.
+
+Propuesta: 2 frases (≤ 55) y una tercera solo si hubo relajación.
+
+### Importantes
+- **I1. Racha de 6 frases sin que la clienta actúe:** reacción de Q4, espera (2), resumen y pacto (2).
+  - Opción A: el pacto como respuesta a un botón "¿Y si no me quedan bien?".
+  - Opción B: pacto en 1 frase.
+  - Es decisión del usuario.
+- **I2. La rama "casa" no nombra las zapatillas.** Dice "estas", "se las prueba" y "Ver los zapatos". Faltan "Ver las zapatillas", "Más zapatillas para usted" y la etiqueta de sección.
+- **I3. Dos frases del saludo pasan de 2 líneas** (70 y 87 caracteres). Además, la segunda son 2 frases de Don Pedro hablando de sí mismo (contra la regla 6).
+- **I4. `diseno.md` desactualizado respecto a `textos.ts`.**
+  - Guion y reacciones antiguos.
+  - Plantilla con ":".
+  - "El pacto no se muestra".
+  - Botón "Comprar".
+  - Reseñas en R.
+  - Término prohibido "envío gratis" duplicado.
+  - Pendientes ya resueltos en `estado.md`.
+
+### Menores
+| Archivo | Actual | Propuesta |
+|---|---|---|
+| textos q3 | "Tacón, sí; pero sin sufrir." | "Tacón, sí, pero sin sufrir." |
+| textos q2 | "Lo más difícil en Madrid. Apuntado." | "Lo más difícil de acertar en Madrid." |
+| textos q4 | "Buen ojo. Apuntado." (repite "Apuntado") | "¡Buen ojo! Ya sé lo que busca." |
+| muestras / fragmentos | "Oro y plata" / "metalizado" / "dorado" | Un solo nombre: "Metalizado" |
+| error trastienda | "Pase a la tienda, que allí están todos los pares." | "Mírelos usted misma: ahí están todos los pares." |
+| error trastienda | "Ir a la tienda" | "Ver todos los zapatos" |
+| resultados | "Ver toda la tienda" → /10-zapatos | La etiqueta promete más que el destino (lo pidió el usuario) |
+| resultados | "Recomendaciones" | Suena a web (lo pidió el usuario) |
+| etiqueta corta | "Sandalia · plano" | "plana" con los tipos femeninos |
+| TarjetaProducto | alt = nombre también en "Más zapatos" | alt vacío donde el nombre ya es visible |
+| error.tsx | la sección se anuncia como "Volver a empezar" | etiqueta propia |
+| personaje · layout · pie | alt "detrás del mostrador" · sin openGraph · sin "Condiciones" | alt actualizado · openGraph con la fachada · enlace a condiciones |
+
+Comprobado sin incidencias:
+- Reacciones de 40 caracteres o menos.
+- Preguntas de 19 a 40 caracteres.
+- Pacto de 54 y 55 caracteres.
+- Errores y 404 de 38 a 51 caracteres.
+- Botones en infinitivo.
+- Las nietas y "fíjese" se usan una sola vez.
+- "14 días" con espacio no separable.
+
+## Corregido desde la auditoría anterior
+- Corregidos: A1–A3, M1–M4, M6, M8, M9 y B1–B21.
+- Siguen abiertos:
+  - B22 (openGraph).
+  - M5 a medias.
+  - M7, reabierto por petición del usuario.
 
 ## Patrones para la biblia
-- Medir la regla 3 en caracteres: 40 en la burbuja lateral, 58 a ancho completo.
-- Escribir las excepciones de voz de la clienta ("Empezamos", opciones en primera persona).
-- Revisar el género en las plantillas.
-- Guionizar los rincones: 404, error, foto rota, lista vacía.
-- Los nombres del catálogo también son voz.
-- Todo texto vive en `content/`.
-- Ninguna etiqueta promete más que su destino.
-- Decidir sobre "el taller" (es de reparación).
-- Limitar los diminutivos y los elogios.
-- Erratas en los docs: "66 años" (usar "desde 1958"), "Garantía [CONGELADO]" en narrativa.
+1. Regla 3 en caracteres: cada frase del cuadro, 55 como máximo (29 por línea si lleva "›"); reacciones, 40 como máximo.
+2. "Seguidas" = máximo 3 por cuadro. Se reinicia con una acción de la clienta o con una pausa visible.
+3. Medir las plantillas por su caso más largo con un test sobre todas las combinaciones.
+4. Sin nada a la vista, nada de deícticos: se nombra el objeto.
+5. La relajación se dice hablando, sin paréntesis. Si no cabe, en su propia frase.
+6. Un concepto, un nombre.
+7. Cada texto que nombra el calzado necesita su variante "casa".
+8. `diseno.md` debe remitir a `textos.ts` en vez de copiar los textos.
+9. El ejemplo de resumen de `patrones.md` incumple su propia regla de 2 líneas.
+
+## Aplicado tras esta auditoría (2026-09-30)
+Ver `docs/estado.md`. Queda para el usuario: I1 (el pacto lo pidió así), "Recomendaciones" y "Ver toda la tienda" (textos pedidos por el usuario).

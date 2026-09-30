@@ -70,7 +70,7 @@ export default function Trastienda() {
         }
         new Image().src = personaje.poses.senalando;
         const pacto = respuestasCompletas.ocasion === "casa" ? config.pacto.zapatillas : config.pacto.zapatos;
-        return { ok: true, frases: [resumenRespuestas(respuestasCompletas, r.relajaciones), ...pacto] };
+        return { ok: true, frases: [...resumenRespuestas(respuestasCompletas, r.relajaciones), ...pacto] };
       })
       .catch((e: unknown): Resultado => ({ ok: false, motivo: e instanceof Error ? e.message : "desconocido" }))
       .then((resultado) => {
@@ -131,7 +131,7 @@ export default function Trastienda() {
           <div ref={cta} className="w-full">
             {pactoDicho ? (
               <Boton onClick={avanzar} className="accion-destacada">
-                {textos.trastienda.verZapatos}
+                {respuestasCompletas?.ocasion === "casa" ? textos.trastienda.verZapatillas : textos.trastienda.verZapatos}
               </Boton>
             ) : null}
           </div>

@@ -8559,6 +8559,25 @@
     ]
   },
   {
+    "id": 2674,
+    "idAtributo": 26352,
+    "nombre": "BOTÍN PIEL TACÓN MEDIO NEGRO",
+    "url": "https://donpedrohabana.com/botines/2674-26352-botin-ante-tacon-medio-camel.html",
+    "imagen": "https://donpedrohabana.com/15282-home_default_2x/botin-ante-tacon-medio-camel.jpg",
+    "precio": 109,
+    "descripcion": "",
+    "categorias": [
+      22
+    ],
+    "modelo": "BOTIN PIEL TACON MEDIO",
+    "tacon": "bajo",
+    "color": "negro",
+    "estaciones": [
+      "frio",
+      "entretiempo"
+    ]
+  },
+  {
     "id": 2675,
     "idAtributo": 26353,
     "nombre": "BOTÍN PIEL TACÓN MEDIO NEGRO",
@@ -8690,6 +8709,27 @@
     "modelo": "MOCASIN ANTE CUNA ELASTICOS",
     "tacon": "bajo",
     "color": "marino",
+    "estaciones": [
+      "frio",
+      "entretiempo",
+      "calor"
+    ]
+  },
+  {
+    "id": 2688,
+    "idAtributo": 26460,
+    "nombre": "DEPORTIVA SERRAJE MARRÓN",
+    "url": "https://donpedrohabana.com/sport/2688-26460-deportiva-serraje-marron.html",
+    "imagen": "https://donpedrohabana.com/15061-home_default_2x/deportiva-serraje-marron.jpg",
+    "precio": 99,
+    "descripcion": "DEPORTIVA SERRAJE CON PLANTILLA EXTRAIBLE",
+    "categorias": [
+      17,
+      51
+    ],
+    "modelo": "DEPORTIVA SERRAJE",
+    "tacon": "plano",
+    "color": "marron",
     "estaciones": [
       "frio",
       "entretiempo",
@@ -11300,6 +11340,27 @@
     ]
   },
   {
+    "id": 3235,
+    "idAtributo": 28809,
+    "nombre": "DEPORTIVA SERRAJE AZUL",
+    "url": "https://donpedrohabana.com/sport/3235-28809-deportiva-serraje-marron.html",
+    "imagen": "https://donpedrohabana.com/16774-home_default_2x/deportiva-serraje-marron.jpg",
+    "precio": 99,
+    "descripcion": "DEPORTIVA SERRAJE CON PLANTILLA EXTRAIBLE",
+    "categorias": [
+      17,
+      51
+    ],
+    "modelo": "DEPORTIVA SERRAJE",
+    "tacon": "plano",
+    "color": "azul",
+    "estaciones": [
+      "frio",
+      "entretiempo",
+      "calor"
+    ]
+  },
+  {
     "id": 3237,
     "idAtributo": 28822,
     "nombre": "MOCASIN SERRAJE NEGRO",
@@ -11594,6 +11655,26 @@
     ]
   },
   {
+    "id": 3268,
+    "idAtributo": 29038,
+    "nombre": "SALÓN CERRADO CON LAZADA NEGRO",
+    "url": "https://donpedrohabana.com/sport/3268-29038-salon-cerrado-con-lazada-negro.html",
+    "imagen": "https://donpedrohabana.com/16811-home_default_2x/salon-cerrado-con-lazada-negro.jpg",
+    "precio": 110,
+    "descripcion": "ELEGANTE SALÓN CON LAZADA PERFECTO PARA IR CÓMODA A PASEAR SIN RENUNCIAR AL ESTILO.",
+    "categorias": [
+      17
+    ],
+    "modelo": "SALON CERRADO LAZADA",
+    "tacon": "plano",
+    "color": "negro",
+    "estaciones": [
+      "frio",
+      "entretiempo",
+      "calor"
+    ]
+  },
+  {
     "id": 3269,
     "idAtributo": 29051,
     "nombre": "SALÓN CERRADO CON LAZADA MARRÓN",
@@ -11627,6 +11708,27 @@
     "modelo": "SALON CERRADO LAZADA",
     "tacon": "plano",
     "color": "burdeos",
+    "estaciones": [
+      "frio",
+      "entretiempo",
+      "calor"
+    ]
+  },
+  {
+    "id": 3271,
+    "idAtributo": 29064,
+    "nombre": "DEPORTIVA SERRAJE CUERO",
+    "url": "https://donpedrohabana.com/sport/3271-29064-deportiva-serraje-marron.html",
+    "imagen": "https://donpedrohabana.com/16826-home_default_2x/deportiva-serraje-marron.jpg",
+    "precio": 99,
+    "descripcion": "DEPORTIVA SERRAJE CON PLANTILLA EXTRAIBLE",
+    "categorias": [
+      17,
+      51
+    ],
+    "modelo": "DEPORTIVA SERRAJE",
+    "tacon": "plano",
+    "color": "marron",
     "estaciones": [
       "frio",
       "entretiempo",

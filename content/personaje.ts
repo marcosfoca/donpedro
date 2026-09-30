@@ -17,7 +17,7 @@ export const personaje: { nombre: string; poses: Record<Pose, string>; alt: Reco
   // Don Pedro es decorativo junto a sus burbujas (que ya se anuncian). Si se quiere
   // describir, usar estos textos; por defecto los componentes usan alt="".
   alt: {
-    saludo: "Don Pedro saluda desde detrás del mostrador",
+    saludo: "Don Pedro saluda de pie, delante del mostrador",
     escuchando: "Don Pedro escucha con atención",
     contento: "Don Pedro sonríe",
     trastienda: "Don Pedro va a la trastienda con una caja de zapatos",

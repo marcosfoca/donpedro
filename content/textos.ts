@@ -3,7 +3,8 @@
  * sección, errores y estados vacíos. Editables sin tocar componentes.
  * Voz: Don Pedro trata de usted; botones en infinitivo o neutro. Excepciones escritas: "Empezamos"
  * y las opciones del quiz hablan con la voz de la clienta (que también le trata de usted).
- * Longitud (auditoría de voz): reacciones ≤ 40 caracteres; burbujas a ancho completo ≤ 2 líneas.
+ * Longitud (auditoría de voz): cada frase del cuadro ≤ 55 caracteres (2 líneas a 375 px);
+ * reacciones ≤ 40. Todo lo que nombra el calzado tiene variante "casa" (zapatillas, femenino).
  */
 import type { ColorPreferido, Ocasion, Tacon, Tiempo, Tono } from "@/types";
 
@@ -46,8 +47,8 @@ const saludo = {
   /** Saludo por hora (lib/texto.ts → saludoPorHora). En Madrid, "buenos días" hasta comer. */
   porHora: { dias: "Buenos días", tardes: "Buenas tardes", noches: "Buenas noches" },
   burbujas: (saludoHora: string): string[] => [
-    `¡${saludoHora}! Pase, pase. Comprar sin probarse da respeto, ya lo sé.`,
-    "Soy Pedro: abrí esta casa y su taller en 1958. Hoy la llevan mis nietas, Magüi y Kiska.",
+    `¡${saludoHora}! Pase: comprar sin probarse da respeto.`,
+    "Abrí en 1958 y hoy la llevan mis nietas, Magüi y Kiska.",
     "Dígame cuatro cosas y le saco lo que yo le pondría.",
   ],
   cta: "Empezamos",
@@ -82,7 +83,7 @@ const q2: PreguntaTexto<Tiempo> = {
   ],
   reacciones: {
     frio: "Pie calentito y bien sujeto. Apuntado.",
-    entretiempo: "Lo más difícil en Madrid. Apuntado.",
+    entretiempo: "Lo más difícil de acertar en Madrid.",
     calor: "Pie fresco, que agosto no perdona.",
   },
 };
@@ -97,7 +98,7 @@ const q3: PreguntaTexto<Tacon> = {
   reacciones: {
     plano: "Plano no quiere decir sin gracia.",
     bajo: "Lo que más me piden: altura sin sufrir.",
-    tacon: "Tacón, sí; pero sin sufrir.",
+    tacon: "Tacón, sí, pero sin sufrir.",
   },
 };
 
@@ -113,7 +114,7 @@ const q4: PreguntaTexto<ColorPreferido> = {
     discretos: "Discretos: combinan con todo.",
     llamativos: "¡Eso me gusta! El color alegra la calle.",
     todos: "Elijo yo. No la voy a defraudar.",
-    concreto: "Buen ojo. Apuntado.",
+    concreto: "¡Buen ojo! Ya sé lo que busca.",
   },
 };
 
@@ -135,7 +136,7 @@ const colores = {
     rojo: "Rojo",
     rosa: "Rosa",
     verde: "Verde",
-    metal: "Oro y plata",
+    metal: "Metalizado",
   } satisfies Record<Exclude<Tono, "otro">, string>,
 };
 
@@ -151,18 +152,19 @@ const quiz = {
 
 // ---------- E — Trastienda ----------
 const trastienda = {
-  burbujas: ["Deme un momentito, que voy a la trastienda…", "…a por los que no se quedan en el armario."],
+  burbujas: ["Deme un momentito, que voy a la trastienda…", "…a por los pares que no se quedan en el armario."],
   saltar: "Saltar",
   etiquetaSaltar: "Saltar la espera",
   /** Tras decir lo que ha sacado, Don Pedro enseña la selección. */
   verZapatos: "Ver los zapatos",
+  verZapatillas: "Ver las zapatillas",
   etiqueta: "Don Pedro va a la trastienda",
   error: {
     burbujas: [
       "Vaya, se me ha atascado la puerta de la trastienda.",
-      "Pase a la tienda, que allí están todos los pares.",
+      "Mírelos usted misma: ahí están todos los pares.",
     ],
-    cta: "Ir a la tienda",
+    cta: "Ver todos los zapatos",
     // destino: config.tiendaZapatosUrl
   },
 };
@@ -176,9 +178,9 @@ const fragmentos = {
     casa: "estar en casa",
   } satisfies Record<Ocasion, string>,
   tiempo: {
-    frio: "en días de frío",
+    frio: "con frío",
     entretiempo: "en entretiempo",
-    calor: "en días de calor",
+    calor: "con calor",
   } satisfies Record<Tiempo, string>,
   tacon: {
     plano: "planos",
@@ -211,14 +213,14 @@ const fragmentos = {
 };
 
 /**
- * Relajación honesta (R1): qué tiene de distinto lo que se ha añadido. Se dice dentro de la
- * propia frase del resumen, entre paréntesis, para no alargar la cabecera.
+ * Relajación honesta (R1): qué tiene de distinto lo que se ha añadido. Se dice hablando, en su
+ * propia frase justo después del resumen (sin paréntesis: no se pueden decir en voz alta).
  */
 const diferencias = {
   color: "de otro color",
   tacon: {
     plano: "con algo de tacón",
-    bajo: "algo más plano o más alto",
+    bajo: "de otro tacón",
     tacon: "con menos tacón",
   } satisfies Record<Tacon, string>,
   temporada: "de otra temporada",
@@ -227,16 +229,24 @@ const diferencias = {
 
 const resultados = {
   etiqueta: "Los zapatos que le he sacado",
+  etiquetaCasa: "Las zapatillas que le he sacado",
   /** Título de la página de resultados (petición del usuario). */
   titulo: "Recomendaciones",
-  /** R1. Usar resumenRespuestas() de lib/texto.ts, que ya elige plantilla y relajación. */
-  // Termina en punto, no en dos puntos: detrás viene el pacto (config.pacto) y luego los zapatos.
-  plantilla: (o: string, t: string, ta: string, c: string, extra: string) =>
-    `Para ${o}, ${t}, ${ta} y ${c}, yo le pondría estos${extra}.`,
-  plantillaCasa: (c: string, extra: string) => `Para estar en casa y ${c}, yo le pondría estas${extra}.`,
-  /** Paréntesis de relajación: masculino (zapatos) y femenino (zapatillas de casa). */
-  relajacion: (dif: string) => ` (y alguno ${dif})`,
-  relajacionCasa: (dif: string) => ` (y alguna ${dif})`,
+  /**
+   * R1, lo dice Don Pedro en la trastienda: dos frases de ≤ 55 caracteres y, solo si hubo que
+   * completar con otra cosa, una tercera. Usar resumenRespuestas() de lib/texto.ts, que elige y
+   * mide (si una frase no cabe, usa la versión corta). "seis" = config.numRecomendaciones.
+   */
+  resumen: {
+    inicio: (o: string, t: string, ta: string) => `Para ${o}, ${t}, ${ta}…`,
+    fin: (c: string) => `…y ${c}: le he sacado seis.`,
+    inicioCasa: "Unas zapatillas para estar en casa…",
+    finCasa: (c: string) => `…${c}: le he sacado seis.`,
+    relajacion: (dif: string) => `Hay alguno ${dif}: no tenía más.`,
+    relajacionCasa: (dif: string) => `Hay alguna ${dif}: no tenía más.`,
+    relajacionCorta: "Hay alguno distinto de lo que me ha dicho.",
+    relajacionCortaCasa: "Hay alguna distinta de lo que me ha dicho.",
+  },
   fragmentos,
   diferencias,
   // R2
@@ -246,6 +256,9 @@ const resultados = {
   precioActualAccesible: "Ahora",
   /** Etiqueta corta de la tarjeta en móvil: "Salón · tacón bajo" (lib/texto.ts → etiquetaCorta). */
   etiquetaTacon: { plano: "plano", bajo: "tacón bajo", tacon: "tacón" } satisfies Record<Tacon, string>,
+  /** Tipos femeninos: "Sandalia · plana". */
+  planoFemenino: "plana",
+  tiposFemeninos: ["Bota", "Sandalia", "Bailarina", "Mercedita", "Alpargata", "Zapatilla", "Deportiva", "Veneciana", "Chinela"],
   /** Tipo por la primera palabra del nombre (si la reconoce) o, si no, por su categoría. */
   tipoPorPalabra: {
     salon: "Salón",
@@ -281,6 +294,7 @@ const resultados = {
   } as Record<number, string>,
   // R4
   masTitulo: "Más zapatos para usted",
+  masTituloCasa: "Más zapatillas para usted",
   /** El único botón de la página: lleva a todos los zapatos de la tienda (config.tiendaZapatosUrl). */
   verTienda: "Ver toda la tienda",
   /** Solo en el error del recomendador. */
@@ -299,6 +313,7 @@ const errores = {
   },
   /** Error inesperado de la aplicación (app/error.tsx). */
   aplicacion: {
+    etiqueta: "Un contratiempo en la tienda",
     burbujas: ["Vaya, se me ha caído una caja del mostrador.", "Empecemos otra vez, que no tardo nada."],
     cta: "Volver a empezar",
   },
@@ -319,6 +334,7 @@ const pie = {
   avisoLegal: "Aviso legal",
   privacidad: "Privacidad",
   cookies: "Cookies",
+  condiciones: "Condiciones",
 };
 
 // ---------- Metadatos ----------

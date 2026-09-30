@@ -64,7 +64,8 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={producto.imagen}
-            alt={nombre}
+            // En "natural" el nombre ya se lee debajo: la foto no lo repite.
+            alt={ajustado ? nombre : ""}
             width={600}
             height={600}
             loading={prioritaria ? "eager" : "lazy"}

@@ -102,29 +102,39 @@ export function formatoPrecio(precio: number): string {
   return `${precio < 0 ? "-" : ""}${conMiles},${decimales} €`;
 }
 
+/** Largo máximo de una frase del cuadro de diálogo: 2 líneas a 375 px (auditoría de voz). */
+export const MAX_FRASE = 55;
+
 /**
- * R1: frase de Don Pedro que resume las respuestas reales. Si el recomendador relajó filtros,
- * lo dice dentro de la misma frase, con lo que tienen de distinto los añadidos:
- * "…yo le pondría estos (y alguno de otro color o con menos tacón):".
+ * R1: lo que Don Pedro dice en la trastienda con las respuestas reales, en 2 frases ≤ MAX_FRASE:
+ * "Para su celebración, con frío, de tacón…" / "…y en negro o marrón: le he sacado seis.".
+ * Si el recomendador relajó filtros, lo dice en una tercera frase con lo que tienen de distinto:
+ * "Hay alguno de otro color: no tenía más.". Si una frase no cabe, usa su versión corta.
  * La relajación de color con respuesta "todos" no se menciona (no había filtro que relajar).
  */
-export function resumenRespuestas(r: Respuestas, relajaciones: Relajacion[] = []): string {
+export function resumenRespuestas(r: Respuestas, relajaciones: Relajacion[] = []): string[] {
   const R = textos.resultados;
   const f = R.fragmentos;
   const d = R.diferencias;
+  const t = R.resumen;
+  const casa = r.ocasion === "casa";
   const difs: string[] = [];
   if (relajaciones.includes("color") && r.color !== "todos") difs.push(d.color);
   if (relajaciones.includes("tacon") && r.tacon) difs.push(d.tacon[r.tacon]);
   // Ampliar categorías sin salirse de la temporada no contradice nada de lo dicho; en el orden
   // general, "categorias" solo llega después de "estacion", que ya lo anuncia.
   if (relajaciones.includes("estacion")) difs.push(d.temporada);
-  const color = fraseColor(r);
-  if (r.ocasion === "casa") {
-    const extra = difs.length ? R.relajacionCasa(difs.join(d.conector)) : "";
-    return R.plantillaCasa(color, extra);
+
+  const fin = (color: string) => (casa ? t.finCasa(color) : t.fin(color));
+  let cierre = fin(fraseColor(r));
+  if (cierre.length > MAX_FRASE) cierre = fin(f.variosTonos);
+  const frases = [r.ocasion === "casa" ? t.inicioCasa : t.inicio(f.ocasion[r.ocasion], f.tiempo[r.tiempo], f.tacon[r.tacon]), cierre];
+
+  if (difs.length) {
+    const larga = casa ? t.relajacionCasa(difs.join(d.conector)) : t.relajacion(difs.join(d.conector));
+    frases.push(larga.length <= MAX_FRASE ? larga : casa ? t.relajacionCortaCasa : t.relajacionCorta);
   }
-  const extra = difs.length ? R.relajacion(difs.join(d.conector)) : "";
-  return R.plantilla(f.ocasion[r.ocasion], f.tiempo[r.tiempo], f.tacon[r.tacon], color, extra);
+  return frases;
 }
 
 /** "en colores discretos" · "en negro" · "en negro o marrón" · "en negro, gris o burdeos". */
@@ -155,6 +165,7 @@ export function etiquetaCorta(p: Pick<Producto, "nombre" | "categorias" | "tacon
     (primera && R.tipoPorPalabra[primera]) ||
     p.categorias.map((c) => R.tipoPorCategoria[c]).find(Boolean) ||
     "";
-  const tacon = p.tacon ? R.etiquetaTacon[p.tacon] : "";
+  const femenino = R.tiposFemeninos.includes(tipo);
+  const tacon = p.tacon ? (p.tacon === "plano" && femenino ? R.planoFemenino : R.etiquetaTacon[p.tacon]) : "";
   return [tipo, tacon].filter(Boolean).join(" · ");
 }

@@ -22,8 +22,17 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  // URL pública para las previsualizaciones al compartir (WhatsApp, redes). Cambiar al fijar dominio.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://donpedro-seven.vercel.app"),
   title: textos.meta.titulo,
   description: textos.meta.descripcion,
+  openGraph: {
+    title: textos.meta.titulo,
+    description: textos.meta.descripcion,
+    images: [{ url: assets.fachada.dia.escritorio, width: 1376, height: 768, alt: textos.fachada.altFachada }],
+    locale: "es_ES",
+    type: "website",
+  },
   robots: { index: false, follow: false }, // preview: se revisa al fijar dominio
 };
 
