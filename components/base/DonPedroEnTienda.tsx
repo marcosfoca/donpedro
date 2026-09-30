@@ -37,6 +37,8 @@ export function DonPedroEnTienda({ pose, presente = true, className = "" }: DonP
         alt=""
         width={480}
         height={1000}
+        loading="eager"
+        decoding="sync"
         className="relative h-full w-auto object-contain object-bottom"
       />
     </div>

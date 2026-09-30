@@ -8,7 +8,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Boton, CuadroDialogo, EscenaTienda } from "@/components/base";
 import { Cuadricula, MasZapatos } from "@/components/resultados";
-import { assets } from "@/content/assets";
 import { config } from "@/content/config";
 import { textos } from "@/content/textos";
 import { cargarRecomendador } from "@/lib/cargarRecomendador";
@@ -110,9 +109,7 @@ export default function Recomendaciones() {
 
   if (!respuestasCompletas || !calculo) {
     return (
-      <section aria-label={ETIQUETA} className="relative isolate min-h-pantalla">
-        <FondoOpacado />
-      </section>
+      <section aria-label={ETIQUETA} className="relative isolate min-h-pantalla" />
     );
   }
 
@@ -144,8 +141,7 @@ export default function Recomendaciones() {
       aria-label={respuestasCompletas.ocasion === "casa" ? textos.resultados.etiquetaCasa : ETIQUETA}
       className="relative isolate flex w-full flex-col"
     >
-      {/* Seguimos dentro de la tienda, pero opacada para que manden las fotos (petición del usuario). */}
-      <FondoOpacado />
+      {/* Seguimos dentro de la tienda, opacada para que manden las fotos: FondoTienda de app/page.tsx. */}
 
       <h1 className="px-4 pt-3 text-center font-serif text-[28px] font-bold leading-[40px] text-tinta md:pt-5 md:text-[34px]">
         {textos.resultados.titulo}
@@ -171,19 +167,5 @@ export default function Recomendaciones() {
         </Boton>
       </div>
     </section>
-  );
-}
-
-/** Interior del local fijo detrás de los resultados, con un velo crema que lo opaca. */
-function FondoOpacado() {
-  return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10">
-      <picture className="absolute inset-0 block">
-        <source media="(min-width: 768px)" srcSet={assets.interior.escritorio} />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={assets.interior.movil} alt="" className="h-full w-full object-cover" />
-      </picture>
-      <div className="absolute inset-0 bg-fondo/70" />
-    </div>
   );
 }

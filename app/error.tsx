@@ -20,6 +20,7 @@ export default function ErrorAplicacion() {
     <main>
       <EscenaTienda
         etiqueta={t.etiqueta}
+        fondoPropio
         pose="apurado"
         dialogo={<CuadroDialogo textos={t.burbujas} />}
         pie={

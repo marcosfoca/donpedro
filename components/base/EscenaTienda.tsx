@@ -7,6 +7,11 @@ import { Escena } from "./Escena";
 type EscenaTiendaProps = {
   /** Nombre accesible de la sección. */
   etiqueta: string;
+  /**
+   * Pinta su propio fondo del interior. Solo fuera del recorrido (404 y error), donde no está el
+   * FondoTienda común de app/page.tsx.
+   */
+  fondoPropio?: boolean;
   pose: Pose;
   /** false mientras se enseñan opciones: Don Pedro se retira y vuelve para reaccionar. */
   donPedro?: boolean;
@@ -36,6 +41,7 @@ type EscenaTiendaProps = {
  */
 export function EscenaTienda({
   etiqueta,
+  fondoPropio = false,
   pose,
   donPedro = true,
   arriba,
@@ -46,7 +52,7 @@ export function EscenaTienda({
   return (
     <Escena
       etiqueta={etiqueta}
-      fondo={{ ...assets.interior }}
+      fondo={fondoPropio ? { ...assets.interior } : undefined}
       velo="ninguno"
       claseContenido="relative mx-auto flex min-h-pantalla w-full max-w-xl flex-col px-4 pb-4 pt-3"
     >

@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { BotonSonido } from "@/components/base/BotonSonido";
+import { FondoTienda } from "@/components/base/FondoTienda";
 import { textos } from "@/content/textos";
 import { EstadoProvider, esPregunta, useEstado } from "@/lib/estado";
 import Fachada from "@/escenas/Fachada";
@@ -47,6 +48,9 @@ function Escenario() {
     <main ref={main} tabIndex={-1} aria-label={textos.accesible.principal} className="outline-none" data-fase={fase}>
       {/* En resultados no suena nada y el botón tapa la cabecera y las tarjetas. */}
       {fase !== "resultados" ? <BotonSonido /> : null}
+      {/* Un solo fondo del interior para todas las escenas de dentro (desde la entrada, que lo
+          destapa): no se vuelve a montar al cambiar de escena, así no parpadea en blanco. */}
+      {fase !== "fachada" ? <FondoTienda opacado={fase === "resultados"} /> : null}
       <EscenaActiva />
     </main>
   );

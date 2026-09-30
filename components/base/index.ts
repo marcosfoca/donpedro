@@ -6,5 +6,6 @@ export { BotonSonido } from "./BotonSonido";
 export { Escena, type EscenaProps, type FondoEscena } from "./Escena";
 export { DonPedroEnTienda } from "./DonPedroEnTienda";
 export { EscenaTienda } from "./EscenaTienda";
+export { FondoTienda } from "./FondoTienda";
 export { CuadroDialogo } from "./CuadroDialogo";
 export { Pie } from "./Pie";

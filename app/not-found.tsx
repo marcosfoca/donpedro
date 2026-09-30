@@ -11,6 +11,7 @@ export default function NoEncontrada() {
     <main>
       <EscenaTienda
         etiqueta={t.titulo}
+        fondoPropio
         pose="apurado"
         dialogo={<CuadroDialogo textos={t.burbujas} />}
         pie={
