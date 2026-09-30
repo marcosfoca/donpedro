@@ -9,6 +9,23 @@
 **Fase 4 aprobada:** 2026-09-29 ("continúa")
 **Inicio:** 2026-09-29
 
+## Adaptación a personas mayores (2026-09-30, pautas del W3C) ✅
+- **Texto ampliable:** raíz al 112,5 % y todos los tamaños en rem, así respeta la letra grande del móvil. Textos de 15–16 px subidos a 18. Modo `data-letra-grande`:
+  - opciones y zapatos en una columna;
+  - muestras en dos columnas;
+  - progreso solo con "3 de 4";
+  - sonido solo con el icono.
+  - Probado al 200 %: sin scroll horizontal y sin nada tapado.
+- **Botón "atrás" del móvil = paso anterior** (historial por fase; entrada y trastienda se sustituyen). Antes sacaba de la web.
+- **Contraste:** "Saltar" y "Atrás" recuperan su pastilla crema (la anulaba `bg-transparent`).
+- **Consistencia:** "Atrás" visible también mientras Don Pedro pregunta; pie pegado abajo (`sticky`, con `overflow: clip` en la escena) para que "Seguir" y "Atrás" no queden fuera en pantallas bajas.
+- **Claridad:** "Toque un zapato para verlo en la tienda." bajo "Recomendaciones". Rejilla de resultados sin cálculos en px.
+- **Perdonable:** "Seguir" ya no está desactivado; sin color marcado, Don Pedro dice "Toque primero un color, el que más le guste.".
+- **Ayuda:** en el pie, "¿Le ayudamos? Llame a la tienda: 915 636 367" (`tel:`). Confirmar número y horario con el cliente.
+- **Animación con medida:** la flecha "›" queda quieta cuando ya se ha entendido; el brillo de la puerta anima la opacidad de una capa, no un `box-shadow`.
+- **Teclado:** el foco pasa a la primera opción al salir y al cuadro cuando Don Pedro vuelve a hablar.
+- Recomendación para el cliente: probar con 3–5 personas mayores reales antes de lanzar.
+
 ## Jugabilidad y portada (2026-09-30, tarde) ✅
 - **El diálogo avanza al tocar**, al ritmo de cada clienta, en el cuadro o en cualquier parte de la pantalla. Los 3 primeros toques llevan la pastilla "Toque para seguir ›", que late; después, solo la flecha. La pregunta y la reacción del quiz también esperan un toque.
 - **Portada sin aspecto de landing:** logo de la tienda en el cielo (máscara teñida: tinta de día, crema de noche), "Toque la puerta para entrar", y la puerta como único botón con un brillo dorado que late.

@@ -17,6 +17,8 @@ export const config = {
   },
   /** No se muestra (petición del usuario: pacto breve); PrestaShop ya enseña los pagos al pagar. */
   pagos: "Pago con tarjeta, Bizum o transferencia.",
+  /** Teléfono de ayuda del pie (el fijo público de la tienda). Confirmar con el cliente. */
+  telefono: { visible: "915 636 367", enlace: "tel:+34915636367" },
   envio: null as string | null, // PENDIENTE de confirmar con el cliente (12 € España y Portugal vs. solo Madrid). Si es null, no se renderiza
   numRecomendaciones: 6,
   maxMasZapatos: 30,

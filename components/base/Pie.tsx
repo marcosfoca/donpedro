@@ -13,6 +13,15 @@ export function Pie() {
   ];
   return (
     <footer className="relative z-10 border-t-2 border-dorado bg-fondo px-4 py-6 text-center font-sans text-base text-gris">
+      <p className="mb-3 text-tinta">
+        {textos.pie.ayuda}{" "}
+        <a
+          href={config.telefono.enlace}
+          className="inline-flex min-h-tactil items-center whitespace-nowrap font-bold text-cuero-oscuro underline underline-offset-4 hover:text-tinta"
+        >
+          {config.telefono.visible}
+        </a>
+      </p>
       <p>{textos.pie.texto}</p>
       <nav aria-label={textos.pie.etiquetaNav} className="mt-3">
         <ul className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">

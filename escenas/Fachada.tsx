@@ -110,7 +110,7 @@ export default function Fachada() {
           </header>
         </div>
 
-        <p className="mx-auto rounded-full bg-fondo/90 px-3 py-0.5 text-center font-sans text-[15px] leading-[22px] text-tinta shadow-sm">
+        <p className="mx-auto rounded-2xl bg-fondo/90 px-3 py-0.5 text-center font-sans text-base leading-snug text-tinta shadow-sm">
           {textos.fachada.direccion}
         </p>
       </div>

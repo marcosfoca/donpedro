@@ -143,13 +143,17 @@ export default function Recomendaciones() {
     >
       {/* Seguimos dentro de la tienda, opacada para que manden las fotos: FondoTienda de app/page.tsx. */}
 
-      <h1 className="px-4 pt-3 text-center font-serif text-[28px] font-bold leading-[40px] text-tinta md:pt-5 md:text-[34px]">
-        {textos.resultados.titulo}
-      </h1>
-      {/* Lo que Don Pedro dijo en la trastienda, para los lectores de pantalla. */}
-      <p className="sr-only">{resumenRespuestas(respuestasCompletas, resultado.relajaciones).join(" ")}</p>
-
-      <Cuadricula productos={resultado.top} etiqueta={textos.resultados.etiquetaCuadricula} />
+      {/* Título, indicación y las 6: ocupan la pantalla (la rejilla reparte el alto que queda). */}
+      <div className="flex min-h-pantalla flex-col">
+        <h1 className="px-4 pt-3 text-center font-serif text-[1.556rem] font-bold leading-tight text-tinta md:pt-5 md:text-[1.889rem]">
+          {textos.resultados.titulo}
+        </h1>
+        {/* Qué pasa al tocar (claridad para público sénior). */}
+        <p className="px-4 pt-1 text-center font-sans text-base text-tinta">{textos.resultados.instruccion}</p>
+        {/* Lo que Don Pedro dijo en la trastienda, para los lectores de pantalla. */}
+        <p className="sr-only">{resumenRespuestas(respuestasCompletas, resultado.relajaciones).join(" ")}</p>
+        <Cuadricula productos={resultado.top} etiqueta={textos.resultados.etiquetaCuadricula} />
+      </div>
 
       <MasZapatos
         mas={resultado.mas}

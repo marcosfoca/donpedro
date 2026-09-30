@@ -1,5 +1,4 @@
 "use client";
-import type { CSSProperties } from "react";
 import type { Producto } from "@/types";
 import { TarjetaProducto } from "./TarjetaProducto";
 
@@ -9,30 +8,18 @@ type Props = {
 };
 
 /**
- * R2. Cuadrícula de 6 que, con el título "Recomendaciones" encima, ocupa TODA la pantalla (Don
- * Pedro ya lo ha dicho en la trastienda, petición del usuario).
- *
- * Alto de fila = max(--min-tarjeta, min(--max-tarjeta, (100dvh - holgura) / filas))
- * - Móvil: 3 filas, holgura 84px (título 52 + 8 arriba + 2 huecos de 8 + 8 abajo), mínimo 180px.
- * - ≥768px: 2 filas, holgura 110px (título 66 + 16 arriba + 12 de hueco + 16 abajo), mínimo 220px,
- *   máximo 460px.
- * La foto (flex-1, object-contain) absorbe la diferencia; etiqueta y precio son fijos.
+ * R2. Cuadrícula de 6 que, con el título y la indicación encima, llena la pantalla: la rejilla
+ * ocupa el alto que queda (flex-1) y lo reparte entre sus filas (3 en móvil, 2 desde 768 px), con
+ * un mínimo por fila. Sin cálculos en px: si la persona tiene la letra grande, crece y se desplaza.
  */
 export function Cuadricula({ productos, etiqueta }: Props) {
-  const estilo = {
-    gridAutoRows:
-      "max(var(--min-tarjeta), min(var(--max-tarjeta), calc((100dvh - var(--holgura)) / var(--filas))))",
-  } as CSSProperties;
-
   return (
     <ul
       aria-label={etiqueta}
-      style={estilo}
       className={[
-        "mx-auto grid w-full max-w-resultados grid-cols-2 gap-[8px] px-4 pb-[8px] pt-[8px] md:pt-[16px]",
-        "[--filas:3] [--holgura:84px] [--min-tarjeta:180px] [--max-tarjeta:9999px]",
-        "md:grid-cols-3 md:gap-[12px] md:pb-[16px]",
-        "md:[--filas:2] md:[--holgura:110px] md:[--min-tarjeta:220px] md:[--max-tarjeta:460px]",
+        "mx-auto grid w-full max-w-resultados flex-1 grid-cols-2 gap-[8px] px-4 pb-[8px] pt-[8px] [[data-letra-grande]_&]:grid-cols-1",
+        "auto-rows-[minmax(180px,1fr)] md:auto-rows-[minmax(220px,1fr)]",
+        "md:grid-cols-3 md:gap-[12px] md:pb-[16px] md:pt-[12px]",
       ].join(" ")}
     >
       {productos.map((p, i) => (

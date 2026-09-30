@@ -4,8 +4,10 @@
 
 @layer base {
   html {
-    /* Texto base sénior: 18px */
-    font-size: 18px;
+    /* Texto base sénior: 18 px con la letra por defecto del navegador (16 px). En porcentaje, no en
+       px: así respeta la letra grande que la persona tenga configurada, y todo (textos, botones,
+       zonas táctiles) crece con ella. Probado con el texto al 200 %. */
+    font-size: 112.5%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
@@ -60,11 +62,9 @@
     display: none !important;
   }
   /* Sin latido: la puerta queda iluminada, quieta. */
-  .puerta-brillo {
+  .puerta-brillo::after {
     animation: none !important;
-    box-shadow:
-      0 0 0 3px rgba(255, 228, 150, 0.95),
-      0 0 30px 10px rgba(255, 205, 110, 0.6);
+    opacity: 0.85;
   }
   .animate-punto {
     animation: none !important;
@@ -280,21 +280,26 @@ html[data-momento="noche"] .logo-mascara {
   filter: drop-shadow(0 1px 2px rgba(43, 33, 24, 0.6));
 }
 
-/* La puerta invita a tocarla: un brillo dorado que late sin parar alrededor de la hoja. */
-.puerta-brillo {
+/* La puerta invita a tocarla: un brillo dorado que late sin parar alrededor de la hoja. Se anima
+   solo la opacidad de una capa ya pintada (barato en cualquier móvil), no el box-shadow. */
+.puerta-brillo::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 8px 8px 2px 2px;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 3px rgba(255, 228, 150, 0.95),
+    0 0 34px 12px rgba(255, 205, 110, 0.75);
   animation: puerta-brillo 1.8s ease-in-out infinite;
 }
 @keyframes puerta-brillo {
   0%,
   100% {
-    box-shadow:
-      0 0 0 2px rgba(255, 222, 140, 0.35),
-      0 0 14px 4px rgba(255, 205, 110, 0.25);
+    opacity: 0.3;
   }
   50% {
-    box-shadow:
-      0 0 0 3px rgba(255, 228, 150, 0.95),
-      0 0 34px 12px rgba(255, 205, 110, 0.75);
+    opacity: 1;
   }
 }
 

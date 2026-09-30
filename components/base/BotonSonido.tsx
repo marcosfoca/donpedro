@@ -28,7 +28,7 @@ export function BotonSonido({ className = "" }: { className?: string }) {
           <path d="M17 9l5 6M22 9l-5 6" strokeLinecap="round" />
         )}
       </svg>
-      <span>{textos.sonido.etiqueta}</span>
+      <span className="[[data-letra-grande]_&]:sr-only">{textos.sonido.etiqueta}</span>
     </button>
   );
 }

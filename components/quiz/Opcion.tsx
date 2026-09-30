@@ -41,7 +41,7 @@ export function Opcion({ indice, estado, className = "", ...tarjeta }: OpcionPro
         <>
           <span
             aria-hidden="true"
-            className="opcion-sello absolute -right-2 -top-2 grid h-10 w-10 place-items-center rounded-full border-2 border-fondo bg-cuero text-[22px] font-bold leading-none text-fondo shadow-md"
+            className="opcion-sello absolute -right-2 -top-2 grid h-10 w-10 place-items-center rounded-full border-2 border-fondo bg-cuero text-[1.222rem] font-bold leading-none text-fondo shadow-md"
           >
             ✓
           </span>

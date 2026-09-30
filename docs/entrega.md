@@ -68,6 +68,8 @@ Para probar en local: `npm run dev` (http://localhost:3000) o `npx serve out -l 
   - **Envío.** Confirmar la zona y el coste, porque las condiciones se contradicen: 12 € a España y Portugal frente a solo Madrid. Hoy no se menciona en ningún sitio.
   - **Dominio final.**
   - **Origen del tráfico,** para activar la analítica, los píxeles y las UTM (congelado).
+- **Teléfono de ayuda:** el pie dice "¿Le ayudamos? Llame a la tienda: 915 636 367". Confirmar que es el número que quieren y si añadir el horario (`content/config.ts` → `telefono`).
+- **Prueba con personas mayores reales:** recomendamos observar a 3–5 clientas usándola antes de lanzar, para ver dónde dudan.
 - **Recomendaciones para la tienda:**
   - Permitir comprar sin registrarse en PrestaShop.
   - Que la ficha no traiga la talla 35 preseleccionada, sino "Elija su talla".

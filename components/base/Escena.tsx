@@ -45,7 +45,7 @@ export function Escena({
   return (
     <section
       aria-label={etiqueta}
-      className={`relative isolate w-full overflow-hidden ${alto === "pantalla" ? "h-pantalla" : "min-h-pantalla"} ${className}`}
+      className={`relative isolate w-full overflow-clip ${alto === "pantalla" ? "h-pantalla" : "min-h-pantalla"} ${className}`}
     >
       {fondo ? (
         <picture className="absolute inset-0 -z-10">

@@ -60,10 +60,12 @@ export function EscenaTienda({
       {/* Capas: el diálogo (z-40) lleva una capa que avanza al tocar en cualquier parte; arriba (z-50),
           el contenido y el pie (z-40, después en el DOM) quedan por encima y se pueden tocar. */}
       {/* Los contenedores no atrapan toques (pointer-events-none); solo su contenido real. */}
-      <div className="pointer-events-none relative z-50 flex min-h-tactil items-center gap-2 pr-28 [&>*]:pointer-events-auto">{arriba}</div>
+      <div className="pointer-events-none relative z-50 flex min-h-tactil items-center gap-2 pr-28 [[data-letra-grande]_&]:pr-20 [&>*]:pointer-events-auto">{arriba}</div>
       <div className="relative z-40 mt-3">{dialogo}</div>
       <div className="pointer-events-none relative z-40 mt-3 flex flex-1 flex-col [&>*]:pointer-events-auto">{children}</div>
-      <div className="pointer-events-none relative z-40 mt-3 flex min-h-boton items-end gap-3 [&>*]:pointer-events-auto">{pie}</div>
+      {/* Pegado abajo: si el contenido no cabe (pantalla baja o letra grande), "Seguir" y "Atrás"
+          siguen a la vista. */}
+      <div className="pointer-events-none sticky bottom-3 z-40 mt-3 flex min-h-boton items-end gap-3 [&>*]:pointer-events-auto">{pie}</div>
     </Escena>
   );
 }

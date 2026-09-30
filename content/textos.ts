@@ -121,6 +121,8 @@ const q4: PreguntaTexto<ColorPreferido> = {
 /** Q4 → "Uno en concreto": muestras de color (se puede marcar más de una). */
 const colores = {
   pregunta: "¿Cuál? Si quiere, marque varios.",
+  /** Si pulsa "Seguir" sin marcar ninguno (en vez de un botón desactivado sin explicación). */
+  aviso: "Toque primero un color, el que más le guste.",
   etiquetaGrupo: "Colores",
   seguir: "Seguir",
   /** Nombre de cada muestra (el tono "otro" no tiene muestra). */
@@ -232,6 +234,8 @@ const resultados = {
   etiquetaCasa: "Las zapatillas que le he sacado",
   /** Título de la página de resultados (petición del usuario). */
   titulo: "Recomendaciones",
+  /** Qué pasa al tocar una tarjeta (claridad para público sénior). */
+  instruccion: "Toque un zapato para verlo en la tienda.",
   /**
    * R1, lo dice Don Pedro en la trastienda: dos frases de ≤ 55 caracteres y, solo si hubo que
    * completar con otra cosa, una tercera. Usar resumenRespuestas() de lib/texto.ts, que elige y
@@ -335,6 +339,8 @@ const pie = {
   privacidad: "Privacidad",
   cookies: "Cookies",
   condiciones: "Condiciones",
+  /** Ayuda humana, siempre en el mismo sitio (el pie). */
+  ayuda: "¿Le ayudamos? Llame a la tienda:",
 };
 
 // ---------- Metadatos ----------

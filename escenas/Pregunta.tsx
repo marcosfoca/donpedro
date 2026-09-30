@@ -55,6 +55,8 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
   /** Opción elegida en esta visita. */
   const [elegida, setElegida] = useState<string | null>(null);
   const [tonos, setTonos] = useState<Tono[]>(respuestas.tonos ?? []);
+  /** Pulsó "Seguir" sin marcar ningún color: Don Pedro se lo explica (sin botones desactivados mudos). */
+  const [avisoColores, setAvisoColores] = useState(false);
   const bloqueado = useRef(false);
   const temporizadores = useRef<number[]>([]);
   const avanzado = useRef(false);
@@ -94,7 +96,11 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
   };
 
   const confirmarColores = () => {
-    if (!tonos.length || momento !== "colores") return;
+    if (momento !== "colores") return;
+    if (!tonos.length) {
+      setAvisoColores(true);
+      return;
+    }
     elegirTonos(tonos);
     setMomento("cerrandoColores");
     despues(movimiento.salidaMs, () => setMomento("reaccion"));
@@ -115,6 +121,17 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
 
   const habla = HABLA.includes(momento);
 
+  // Foco (teclado y lectores de pantalla): a la primera opción cuando salen, y al cuadro cuando
+  // vuelve a hablar Don Pedro (QA móvil, I-4). Con el dedo no se ve el anillo (:focus-visible).
+  useEffect(() => {
+    const main = document.querySelector("main");
+    if (momento === "opciones" || momento === "colores") {
+      main?.querySelector<HTMLElement>('[role="group"] button')?.focus({ preventScroll: true });
+    } else if (HABLA.includes(momento)) {
+      main?.querySelector<HTMLElement>('[aria-live] button:not([tabindex="-1"])')?.focus({ preventScroll: true });
+    }
+  }, [momento]);
+
   // Cuando Don Pedro vuelve a hablar, arriba: si la página estaba desplazada (muestras en pantallas
   // bajas), su cuadro quedaba fuera de la vista (QA móvil, I-1).
   useEffect(() => {
@@ -134,7 +151,11 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
     momento === "reaccion"
       ? { key: "reaccion", frase: t.reacciones[elegida ?? ""] ?? "", fin: seguir }
       : momento === "dialogoColores" || conColores
-        ? { key: "colores", frase: textos.colores.pregunta, fin: pasar("dialogoColores", "colores") }
+        ? {
+            key: avisoColores ? "aviso" : "colores",
+            frase: avisoColores ? textos.colores.aviso : textos.colores.pregunta,
+            fin: pasar("dialogoColores", "colores"),
+          }
         : { key: "pregunta", frase: t.pregunta, fin: pasar("dialogo", "opciones") };
 
   return (
@@ -152,14 +173,16 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
         />
       }
       pie={
-        conOpciones || conColores ? (
+        // "Atrás" siempre en el mismo sitio (también mientras pregunta); se oculta solo durante las
+        // transiciones de la elección.
+        momento === "dialogo" || momento === "dialogoColores" || momento === "opciones" || conColores ? (
           <>
             <Boton variante="texto" anchoCompleto={false} onClick={atras} className="pastilla min-h-tactil">
               <span aria-hidden="true">←</span>
               {textos.quiz.atras}
             </Boton>
             {conColores ? (
-              <Boton onClick={confirmarColores} disabled={!tonos.length} className="flex-1">
+              <Boton onClick={confirmarColores} className="flex-1">
                 {textos.colores.seguir}
               </Boton>
             ) : null}
@@ -172,7 +195,7 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
           role="group"
           aria-label={t.pregunta}
           className={[
-            rejilla ? "grid grid-cols-2 gap-2.5" : "flex flex-col gap-2.5",
+            rejilla ? "grid grid-cols-2 gap-2.5 [[data-letra-grande]_&]:grid-cols-1" : "flex flex-col gap-2.5",
             "transition-[opacity,transform] duration-300 ease-suave",
             momento === "cerrando" ? "translate-y-2 opacity-0" : "",
           ].join(" ")}
@@ -198,7 +221,14 @@ export default function Pregunta({ pregunta }: { pregunta: FasePregunta }) {
         </div>
       ) : null}
       {conColores ? (
-        <MuestrasColor marcados={tonos} onCambio={setTonos} saliendo={momento === "cerrandoColores"} />
+        <MuestrasColor
+          marcados={tonos}
+          onCambio={(t) => {
+            setTonos(t);
+            if (t.length) setAvisoColores(false);
+          }}
+          saliendo={momento === "cerrandoColores"}
+        />
       ) : null}
     </EscenaTienda>
   );

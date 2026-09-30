@@ -139,14 +139,14 @@ export function CuadroDialogo({
         <Burbuja key={`${actual}-${textos[actual]}`} pico={pico} animacion="animate-dialogo" className="origin-bottom">
           {textos[actual]}
           {pista && !evidente ? (
-            <span aria-hidden="true" className="ml-2 inline-block animate-pista font-bold text-cuero">
+            <span aria-hidden="true" className="ml-2 inline-block font-bold text-cuero">
               ›
             </span>
           ) : null}
           {pista && evidente ? (
             <span className="mt-2 flex w-fit animate-pista items-center gap-1.5 rounded-full bg-cuero px-3 py-1 font-sans text-base font-bold text-fondo shadow-md">
               {contenido.quiz.tocarParaSeguir}
-              <span aria-hidden="true" className="text-[20px] leading-none">
+              <span aria-hidden="true" className="text-[1.111rem] leading-none">
                 ›
               </span>
             </span>

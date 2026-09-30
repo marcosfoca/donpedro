@@ -56,7 +56,7 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
         ].join(" ")}
       >
         {sinFoto ? (
-          <span className="absolute inset-0 flex items-center justify-center p-2 text-center font-serif text-[16px] italic text-gris">
+          <span className="absolute inset-0 flex items-center justify-center p-2 text-center font-serif text-base italic text-gris">
             {textos.errores.imagenCorta}
             <span className="sr-only">. {nombre}</span>
           </span>
@@ -81,7 +81,7 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
         {ajustado && etiqueta ? (
           <span
             aria-hidden="true"
-            className="absolute left-0 top-0 max-w-full truncate rounded-br-md bg-fondo/95 px-1.5 font-sans text-[15px] font-semibold leading-[22px] text-tinta md:hidden"
+            className="absolute left-0 top-0 max-w-full truncate rounded-br-md bg-fondo/95 px-1.5 font-sans text-base font-semibold leading-snug text-tinta md:hidden"
           >
             {etiqueta}
           </span>
@@ -91,10 +91,10 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
       {/* 2. Nombre en tipo oración, máx. 2 líneas (1 en pantallas muy bajas, solo en R2) */}
       <span
         className={[
-          "block overflow-hidden font-sans text-[16px] font-semibold leading-[20px] line-clamp-2",
+          "block overflow-hidden font-sans text-base font-semibold leading-[1.3] line-clamp-2",
           ajustado
-            ? "hidden md:block md:h-[40px] md:shrink-0 md:line-clamp-2"
-            : "min-h-[40px]",
+            ? "hidden md:block md:h-[2.6em] md:shrink-0 md:line-clamp-2"
+            : "min-h-[2.6em]",
         ].join(" ")}
       >
         {nombre}
@@ -102,14 +102,14 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
 
       {/* 3. Precio + flecha. Sin botón "Comprar": toda la tarjeta es el botón (petición del usuario).
           El nombre accesible del enlace termina en "Comprar" (sr-only) para anunciar la acción. */}
-      <span className="flex shrink-0 items-center justify-between gap-2 leading-[24px]">
+      <span className="flex shrink-0 items-center justify-between gap-2 leading-normal">
         <span className="flex min-w-0 flex-row flex-wrap items-baseline gap-x-2">
           {hayAnterior ? <span className="sr-only">{textos.resultados.precioActualAccesible}</span> : null}
           <span className="whitespace-nowrap font-sans text-precio font-bold text-cuero">
             {formatoPrecio(producto.precio)}
           </span>
           {hayAnterior ? (
-            <s className="whitespace-nowrap font-sans text-[15px] leading-[18px] text-gris">
+            <s className="whitespace-nowrap font-sans text-base leading-tight text-gris">
               <span className="sr-only">{textos.resultados.precioAnteriorAccesible} </span>
               {formatoPrecio(producto.precioAnterior as number)}
             </s>
@@ -117,7 +117,7 @@ export const TarjetaProducto = forwardRef<HTMLAnchorElement, Props>(function Tar
         </span>
         <span
           aria-hidden="true"
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-cuero text-[18px] font-bold leading-none text-fondo transition-colors duration-200 ease-suave group-hover:bg-cuero-oscuro"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-cuero text-base font-bold leading-none text-fondo transition-colors duration-200 ease-suave group-hover:bg-cuero-oscuro"
         >
           →
         </span>

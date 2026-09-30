@@ -25,7 +25,7 @@ export function MasZapatos({ mas, posicionInicial, titulo }: Props) {
       <h2 id="mas-titulo" className="text-center font-serif text-subtitulo font-bold text-tinta">
         {titulo}
       </h2>
-      <ul className="mt-4 grid grid-cols-2 gap-[8px] md:grid-cols-3 md:gap-[12px]">
+      <ul className="mt-4 grid grid-cols-2 gap-[8px] md:grid-cols-3 md:gap-[12px] [[data-letra-grande]_&]:grid-cols-1">
         {disponibles.map((p, i) => (
           <li key={`${p.id}-${p.idAtributo}-${i}`} className="min-w-0">
             <TarjetaProducto producto={p} posicion={posicionInicial + i} modo="natural" />

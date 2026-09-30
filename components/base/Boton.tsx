@@ -31,7 +31,8 @@ const VARIANTES: Record<VarianteBoton, string> = {
   primario: "bg-cuero text-fondo shadow-md hover:bg-cuero-oscuro active:bg-cuero-oscuro",
   secundario:
     "border-2 border-cuero bg-fondo text-cuero-oscuro hover:bg-crema active:bg-crema",
-  texto: "bg-transparent text-cuero-oscuro underline underline-offset-4 hover:text-tinta px-3",
+  // Sin bg-transparent: anulaba la pastilla crema que le da contraste sobre la ilustración.
+  texto: "text-cuero-oscuro underline underline-offset-4 hover:text-tinta px-3",
 };
 
 const TAMANOS: Record<TamanoBoton, string> = {

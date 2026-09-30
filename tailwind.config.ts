@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
 import { colores, movimiento, tamanos } from "./lib/tokens";
 
+/** px de diseño → rem (la raíz mide 18 px por defecto: html { font-size: 112.5% }). */
+const rem = (px: number) => `${+(px / 18).toFixed(4)}rem`;
+
 const config: Config = {
   // En táctil, :hover se queda "pegado" tras tocar y la tarjeta siguiente parecía preseleccionada.
   future: { hoverOnlyWhenSupported: true },
@@ -27,23 +30,24 @@ const config: Config = {
         sans: ["var(--font-source-sans)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        base: [`${tamanos.textoBase}px`, { lineHeight: "1.5" }],
-        burbuja: [`${tamanos.textoBurbuja}px`, { lineHeight: "1.4" }],
-        boton: [`${tamanos.textoBoton}px`, { lineHeight: "1.2" }],
-        precio: ["20px", { lineHeight: "1.2" }],
-        nombre: ["17px", { lineHeight: "1.3" }],
+        // En rem (1 rem = 18 px por defecto): crecen con la letra que tenga configurada la persona.
+        base: [rem(tamanos.textoBase), { lineHeight: "1.5" }],
+        burbuja: [rem(tamanos.textoBurbuja), { lineHeight: "1.4" }],
+        boton: [rem(tamanos.textoBoton), { lineHeight: "1.2" }],
+        precio: [rem(20), { lineHeight: "1.2" }],
+        nombre: [rem(18), { lineHeight: "1.3" }],
         // Una sola línea a 375px ("Don Pedro le atiende"), para que título, promesa y botón quepan en el cielo.
         titulo: ["clamp(1.9rem, 8.4vw, 4rem)", { lineHeight: "1.05" }],
         subtitulo: ["clamp(1.25rem, 4.8vw, 1.75rem)", { lineHeight: "1.3" }],
       },
       minHeight: {
-        boton: `${tamanos.altoBoton}px`,
-        "boton-tarjeta": `${tamanos.altoBotonTarjeta}px`,
-        tactil: `${tamanos.zonaTactil}px`,
+        boton: rem(tamanos.altoBoton),
+        "boton-tarjeta": rem(tamanos.altoBotonTarjeta),
+        tactil: rem(tamanos.zonaTactil),
         pantalla: "100dvh",
         "tarjeta-resultado": `${tamanos.tarjetaResultadoMinAlto}px`,
       },
-      minWidth: { tactil: `${tamanos.zonaTactil}px` },
+      minWidth: { tactil: rem(tamanos.zonaTactil) },
       maxWidth: { resultados: `${tamanos.anchoMaximoResultados}px` },
       height: { pantalla: "100dvh" },
       transitionTimingFunction: { suave: movimiento.easing },

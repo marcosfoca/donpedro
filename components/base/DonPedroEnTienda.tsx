@@ -23,7 +23,7 @@ export function DonPedroEnTienda({ pose, presente = true, className = "" }: DonP
     <div
       aria-hidden="true"
       className={[
-        "pointer-events-none absolute inset-x-0 bottom-[84px] flex h-[54dvh] justify-center",
+        "pointer-events-none absolute inset-x-0 bottom-[4.667rem] flex h-[54dvh] justify-center",
         "transition-[opacity,transform] duration-300 ease-suave",
         presente ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
         className,

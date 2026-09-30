@@ -32,7 +32,7 @@ export function MuestrasColor({ marcados, onCambio, saliendo = false }: Muestras
     <div
       role="group"
       aria-label={textos.colores.etiquetaGrupo}
-      className={`grid grid-cols-3 gap-2 transition-[opacity,transform] duration-300 ease-suave ${saliendo ? "translate-y-2 opacity-0" : ""}`}
+      className={`grid grid-cols-3 gap-2 [[data-letra-grande]_&]:grid-cols-2 transition-[opacity,transform] duration-300 ease-suave ${saliendo ? "translate-y-2 opacity-0" : ""}`}
     >
       {TONOS_ELEGIBLES.map((t, i) => {
         const marcado = marcados.includes(t);
@@ -66,7 +66,7 @@ export function MuestrasColor({ marcados, onCambio, saliendo = false }: Muestras
             {marcado ? (
               <span
                 aria-hidden="true"
-                className="opcion-sello pointer-events-none absolute -right-1.5 -top-1.5 grid h-8 w-8 place-items-center rounded-full border-2 border-fondo bg-cuero text-[18px] font-bold leading-none text-fondo shadow-md"
+                className="opcion-sello pointer-events-none absolute -right-1.5 -top-1.5 grid h-8 w-8 place-items-center rounded-full border-2 border-fondo bg-cuero text-base font-bold leading-none text-fondo shadow-md"
               >
                 ✓
               </span>
