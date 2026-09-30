@@ -1,7 +1,7 @@
 # Lo que no se sube al desplegar con la CLI de Vercel desde la carpeta (el .gitignore solo vale para git).
 .env
 .env.*
-arte/
-scripts/arte/
-docs/
+/arte/
+/scripts/arte/
+/docs/
 *.log
