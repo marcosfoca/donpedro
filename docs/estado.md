@@ -9,6 +9,12 @@
 **Fase 4 aprobada:** 2026-09-29 ("continúa")
 **Inicio:** 2026-09-29
 
+## Publicación (2026-09-30)
+- Enlace para probar: **https://donpedro-seven.vercel.app** (Vercel, proyecto `donpedro` de la cuenta marcos-8439, build estático ya compilado).
+- Código: https://github.com/marcosfoca/donpedro (público; sin `.env.local` ni `arte/referencias/`).
+- Volver a publicar: `npm run build` (con los servidores locales parados) y, desde una copia de `out/` en una carpeta llamada `donpedro`, `vercel deploy . --prod --yes`. Pendiente: conectar el repositorio en Vercel para que publique solo con cada push.
+- Tema 1 decidido con el consejo (`docs/decisiones/2026-09-30-relajacion-color.md`, B frente a C, sin unanimidad): con "Uno en concreto" se relaja categorías (sin salirse de la temporada) → tacón parecido → color → temporada (opción C). Tema 2: pacto breve tras el resumen, texto del agente de persuasión.
+
 ## Hecho
 - Fase 1: `docs/investigacion.md`, `docs/descubrimiento.md`
 - Fase 2: `docs/narrativa.md`
