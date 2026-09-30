@@ -1,0 +1,10 @@
+export { Boton, clasesBoton, type BotonProps, type VarianteBoton, type TamanoBoton } from "./Boton";
+export { Burbuja } from "./Burbuja";
+export { TarjetaOpcion, type TarjetaOpcionProps } from "./TarjetaOpcion";
+export { BarraProgreso, type BarraProgresoProps } from "./BarraProgreso";
+export { BotonSonido } from "./BotonSonido";
+export { Escena, type EscenaProps, type FondoEscena } from "./Escena";
+export { DonPedroEnTienda } from "./DonPedroEnTienda";
+export { EscenaTienda } from "./EscenaTienda";
+export { CuadroDialogo } from "./CuadroDialogo";
+export { Pie } from "./Pie";

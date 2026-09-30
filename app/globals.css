@@ -1,0 +1,261 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Texto base sénior: 18px */
+    font-size: 18px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-fondo font-sans text-base text-tinta antialiased;
+    min-height: 100dvh;
+  }
+  /* Foco doble (crema por dentro, marino por fuera): visible sobre fondos claros y sobre el
+     cielo nocturno azul marino. */
+  :focus-visible {
+    outline: 3px solid theme("colors.marino");
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px theme("colors.fondo") !important;
+  }
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+}
+
+/* Respeto a prefers-reduced-motion: sin desplazamientos ni zooms, solo fundidos cortos. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 300ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-aparecer,
+  .animate-dialogo,
+  .opcion-entra,
+  .opcion-entra .opcion-icono,
+  .opcion-elegida,
+  .opcion-sello,
+  .accion-destacada {
+    animation-name: fundido !important;
+  }
+  .opcion-brillo::after,
+  .opcion-chispa {
+    display: none !important;
+  }
+  .animate-punto {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Pastilla crema para textos sueltos sobre las ilustraciones (sin velo sobre el fondo:
+   petición del usuario). */
+@layer components {
+  .pastilla {
+    @apply rounded-full bg-fondo/95 px-3 shadow-sm;
+  }
+}
+
+/* ---------- Acción tras hablar con Don Pedro (EscenaTienda → pie) ----------
+   Para que llame la atención (petición del usuario): borde crema que la separa de la ilustración,
+   sombra marcada, entrada con rebote y un halo dorado que late tres veces. */
+.accion-destacada {
+  border: 3px solid theme("colors.fondo");
+  box-shadow: 0 10px 24px rgba(43, 33, 24, 0.35);
+  animation:
+    accion-entra 480ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    accion-halo 1.6s ease-out 700ms 3;
+}
+@keyframes accion-entra {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes accion-halo {
+  0% {
+    box-shadow:
+      0 10px 24px rgba(43, 33, 24, 0.35),
+      0 0 0 0 rgba(206, 184, 136, 0.9);
+  }
+  100% {
+    box-shadow:
+      0 10px 24px rgba(43, 33, 24, 0.35),
+      0 0 0 16px rgba(206, 184, 136, 0);
+  }
+}
+
+/* ---------- Opciones del quiz: efecto "wow" (components/quiz/Opcion.tsx) ----------
+   Aparición: cada tarjeta sube con un rebote, en cascada (--i = orden), su icono salta un poco
+   después y un brillo dorado la cruza. Elección: la tarjeta se encoge y rebota, un anillo dorado
+   se expande, cae un sello de "visto bueno" y saltan chispas; las demás se apartan. */
+.opcion-entra {
+  animation: opcion-entra 560ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+}
+.opcion-entra .opcion-icono {
+  animation: opcion-icono 600ms cubic-bezier(0.34, 1.7, 0.64, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 260ms);
+}
+.opcion-brillo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 38%, rgba(241, 230, 178, 0.9) 50%, transparent 62%);
+  background-size: 260% 100%;
+  background-position: 160% 0;
+  animation: opcion-brillo 900ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 90ms + 520ms);
+}
+.opcion-elegida {
+  animation:
+    opcion-elegida 620ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    opcion-anillo 900ms ease-out both;
+}
+.opcion-descartada {
+  opacity: 0.35;
+  transform: scale(0.95);
+  filter: saturate(0.6);
+  transition:
+    opacity 280ms ease-out,
+    transform 280ms ease-out,
+    filter 280ms ease-out;
+}
+.opcion-sello {
+  animation: opcion-sello 520ms cubic-bezier(0.34, 1.56, 0.64, 1) 120ms both;
+}
+.opcion-chispa {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  pointer-events: none;
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  animation: opcion-chispa 720ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  animation-delay: calc(var(--n, 0) * 18ms);
+}
+@keyframes opcion-entra {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(0.82) rotate(var(--giro, -2deg));
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes opcion-icono {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-14deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes opcion-brillo {
+  from {
+    background-position: 160% 0;
+  }
+  to {
+    background-position: -60% 0;
+  }
+}
+@keyframes opcion-elegida {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1.04);
+  }
+}
+@keyframes opcion-anillo {
+  0% {
+    box-shadow: 0 0 0 0 rgba(206, 184, 136, 0.95);
+  }
+  100% {
+    box-shadow: 0 0 0 22px rgba(206, 184, 136, 0);
+  }
+}
+@keyframes opcion-sello {
+  0% {
+    opacity: 0;
+    transform: scale(2.6) rotate(-35deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+@keyframes opcion-chispa {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(0) scale(0.3);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(var(--d, 90px)) scale(1);
+  }
+}
+
+/* ---------- Fachada (escenas/Fachada.tsx, components/fachada/CapaFachada.tsx) ----------
+   El script en línea de app/layout.tsx fija <html data-momento="dia|noche"> antes de pintar.
+   Así solo se descarga la fachada que toca y los textos del cielo nacen con su color. */
+.fachada-fondo {
+  background-image: var(--fachada-dia-movil);
+}
+html[data-momento="noche"] .fachada-fondo {
+  background-image: var(--fachada-noche-movil);
+}
+@media (min-width: 768px) {
+  .fachada-fondo {
+    background-image: var(--fachada-dia-escritorio);
+  }
+  html[data-momento="noche"] .fachada-fondo {
+    background-image: var(--fachada-noche-escritorio);
+  }
+}
+.fachada-velo {
+  background: linear-gradient(to bottom, rgba(251, 247, 234, 0.45) 0%, rgba(251, 247, 234, 0.2) 55%, rgba(251, 247, 234, 0) 100%);
+}
+html[data-momento="noche"] .fachada-velo {
+  background: linear-gradient(to bottom, rgba(43, 33, 24, 0.45) 0%, rgba(43, 33, 24, 0.22) 55%, rgba(43, 33, 24, 0) 100%);
+}
+.fachada-titulos {
+  color: theme("colors.tinta");
+  text-shadow: 0 1px 0 rgba(251, 247, 234, 0.8), 0 0 14px rgba(251, 247, 234, 0.7);
+}
+html[data-momento="noche"] .fachada-titulos {
+  color: theme("colors.crema.DEFAULT");
+  text-shadow: 0 1px 2px rgba(43, 33, 24, 0.65), 0 2px 14px rgba(43, 33, 24, 0.55);
+}
+
+/* Usuaria que vuelve (p. ej. atrás desde una ficha de la tienda): el script en línea marca
+   <html data-reanudar> si había un recorrido empezado; la fachada estática no se enseña mientras
+   la app se hidrata y salta a su escena. */
+html[data-reanudar] main[data-fase="fachada"] {
+  visibility: hidden;
+}
