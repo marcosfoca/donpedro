@@ -90,8 +90,10 @@ export default function Fachada() {
       {/* Velo del cielo (app/globals.css): claro de día, oscuro de noche, según <html data-momento>. */}
       <div aria-hidden="true" className="fachada-velo pointer-events-none absolute inset-x-0 top-0 h-[55%]" />
 
-      {/* En el cielo: logo e indicación. La fachada (y su puerta) queda entera a la vista. */}
-      <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-xl flex-col justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[68px] md:pt-20">
+      {/* En el cielo: logo e indicación; en la acera, bajo la puerta, la dirección. Va por encima
+          de la puerta (z-30) para que ningún texto quede tapado, ni con la letra ampliada; no
+          recibe toques, así que la puerta se sigue pudiendo tocar entera. */}
+      <div className="pointer-events-none relative z-30 mx-auto flex h-full w-full max-w-xl flex-col justify-between px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[68px] md:pt-20">
         <div className="flex flex-col items-center gap-4 [@media(max-height:700px)]:gap-2.5">
           {/* De día, tinta sobre el cielo dorado (~9:1); de noche, crema sobre azul marino. El logo
               es una máscara teñida con el color del texto, así cambia con el momento del día. */}

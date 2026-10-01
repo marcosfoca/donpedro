@@ -82,7 +82,7 @@
 ## Arte (fase 5)
 - Estilo 2 "cartel de época" ✅ → `arte/biblia.md`. Clave de Gemini en `.env.local` (fuera de git). No se revoca (decisión del usuario, 2026-09-30).
 - Modelo gemini-3-pro-image vía `scripts/arte/generar.py` (con `--aspecto`). Croma con `scripts/arte/limpiar_croma.py`.
-- ✅ Fachada día y noche (según la hora, `lib/momento.ts`), móvil y escritorio, alineadas al píxel. ✅ Hoja de la puerta (bisagra derecha). En móvil, la ilustración se pinta un 8 % más alta para ganar cielo (`alturaExtra`).
+- ✅ Fachada día y noche (según la hora, `lib/momento.ts`), móvil y escritorio, alineadas al píxel. ✅ Hoja de la puerta (bisagra derecha). En móvil, la acera queda entera a la vista (`alturaExtra: 0`) para que la dirección quepa bajo la puerta sin que esta la tape.
 - ✅ Don Pedro: hoja de personaje (chaleco marrón) + 6 poses (incluida "apurado" para los errores).
 - ✅ Interior 1 (móvil) + outpaint de escritorio. ✅ 16 iconos (magenta, 2K). ✅ Marco de reseñas con CSS. ✅ Campanilla sintetizada (`scripts/arte/campanilla.py`). **Sin placeholders.** `public/arte` ocupa 1,2 MB.
 - Portada: título, promesa y CTA en el cielo; la fachada se pinta un 8 % más alta en móvil.

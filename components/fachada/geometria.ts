@@ -24,7 +24,7 @@ export type Encuadre = {
   /**
    * Alto extra de la ilustración respecto a la pantalla (fracción). La imagen se pinta más alta
    * que el contenedor y anclada arriba: se recorta la acera de abajo y la fachada baja, dejando
-   * más cielo para el título, la promesa y el botón en móviles bajos.
+   * más cielo. Ojo: la puerta baja con ella y puede tapar lo que hay al pie de la pantalla.
    */
   alturaExtra: number;
 };
@@ -36,7 +36,9 @@ export const ENCUADRE: { movil: Encuadre; escritorio: Encuadre } = {
     // Medido en arte/aprobado/fachada-dia.png (768×1376): hoja x 404–560, y 796–1200.
     puerta: { x: 404 / 768, y: 796 / 1376, ancho: 156 / 768, alto: 404 / 1376 },
     proporcion: 768 / 1376,
-    alturaExtra: 0.08,
+    // 0: la acera de abajo queda entera a la vista y la puerta termina al 87 % del alto; ahí, bajo
+    // la puerta, va la dirección. Con 0,08 la puerta bajaba hasta el 94 % y tapaba la dirección.
+    alturaExtra: 0,
   },
   escritorio: {
     posicion: { x: 0.5, y: 0.8 },
